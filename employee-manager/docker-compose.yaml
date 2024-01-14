@@ -1,0 +1,18 @@
+version: "1.0"
+services:
+  mongodb:
+    image: mongodb
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - data:/data
+    environment:
+      - MONGO_INTDB_ROOT_USERNAME=${MONGO_INTDB_ROOT_USERNAME}
+      - MONGO_INTDB_ROOT_PASSWORD=${MONGO_INTDB_ROOT_PASSWORD}
+volumes:
+  data: {}
+
+networks:
+  default:
+    name: employee-manager-network
