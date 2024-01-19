@@ -1,0 +1,5 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://root:rootcredentials2024DBxyz@localhost:27017/
+      database: employee_management
