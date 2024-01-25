@@ -1,5 +1,6 @@
 package com.ralph.employeemanager;
 
+import com.ralph.employeemanager.user.Role;
 import com.ralph.employeemanager.user.User;
 import com.ralph.employeemanager.user.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -16,23 +17,25 @@ public class EmployeeManagerApplication {
 		SpringApplication.run(EmployeeManagerApplication.class, args);
 	}
 
-	@Bean
-	CommandLineRunner runner(UserRepository repository) {
-		return args -> {
+//	@Bean
+//	CommandLineRunner runner(UserRepository repository) {
+//		return args -> {
 //			User user = new User(
 //					"Ralph",
 //					"Szakacs",
 //					"rakph28@gmail.com",
-//					"12345"
+//					"12345",
+//					Role.USER
 //			);
 //			User user2 = new User(
 //					"Ioana",
 //					"Moldovan",
 //					"ioana@gmail.com",
-//					"12345"
+//					"12345",
+//					Role.USER
 //			);
 //			repository.insert(user);
 //			repository.insert(user2);
-		};
-	}
+//		};
+//	}
 }
