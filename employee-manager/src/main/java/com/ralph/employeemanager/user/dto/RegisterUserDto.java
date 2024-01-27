@@ -4,6 +4,7 @@ package com.ralph.employeemanager.user.dto;
 import com.ralph.employeemanager.user.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 
@@ -26,7 +27,7 @@ public class RegisterUserDto {
 
     private String imageUrl;
 
-    @NotEmpty(message = "Role is required")
+    @NotNull(message = "Role is required")
     private Role role;
 
 }

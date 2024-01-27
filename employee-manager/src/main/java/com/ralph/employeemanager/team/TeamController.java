@@ -4,7 +4,9 @@ import com.ralph.employeemanager.config.JwtService;
 import com.ralph.employeemanager.service.DtoConversionService;
 import com.ralph.employeemanager.team.dto.CreateTeamDto;
 import com.ralph.employeemanager.team.dto.RemoveUserDto;
+import com.ralph.employeemanager.user.Role;
 import com.ralph.employeemanager.user.User;
+import com.ralph.employeemanager.user.UserRepository;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,13 +21,27 @@ import java.util.Optional;
 @AllArgsConstructor
 public class TeamController {
     private final TeamRepository repository;
+
+    private final UserRepository userRepository;
     private JwtService jwtService;
     private final DtoConversionService dtoConversionService;
 
     @GetMapping("/get")
-    public ResponseEntity<List<Team>> get(@RequestParam String userId) {
-        List<Team> resp = this.repository.findByOwner(userId);
-        return ResponseEntity.status(HttpStatus.OK).body(resp);
+
+    public ResponseEntity<List<Team>> get(
+        @RequestParam String userId,
+        @RequestHeader("Authorization") String authorizationHeader) {
+            String jwt = authorizationHeader.substring(7);
+            final String username = jwtService.extractUsername(jwt);
+            User user = userRepository.findByEmail(username).get();
+
+            if (user.getId().equals(userId) || user.getRole().equals(Role.ADMIN)) {
+                List<Team> resp = this.repository.findByOwner(userId);
+                return ResponseEntity.status(HttpStatus.OK).body(resp);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+
     }
 
     @PostMapping("/create")
@@ -39,7 +55,6 @@ public class TeamController {
     public ResponseEntity<Boolean> removeUser(@Valid @RequestBody RemoveUserDto removeUserDto) {
         Optional<Team> teamOptional = repository.findById(removeUserDto.getTeamId());
         if (teamOptional.isEmpty()) {
-            System.out.println("no team");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
         }
 

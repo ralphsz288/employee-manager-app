@@ -3,6 +3,7 @@ package com.ralph.employeemanager.user;
 import com.ralph.employeemanager.config.JwtAuthenticationFilter;
 import com.ralph.employeemanager.config.JwtService;
 import com.ralph.employeemanager.service.DtoConversionService;
+import com.ralph.employeemanager.user.dto.LoginUserDto;
 import com.ralph.employeemanager.user.dto.RegisterUserDto;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.swing.text.html.Option;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("employee.management/user")
@@ -40,9 +44,14 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(@RequestBody User user){
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
-        String jwtToken = jwtService.generateToken(user);
-        return ResponseEntity.status(HttpStatus.OK).body(AuthenticationResponse.builder().token(jwtToken).build());
+    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody LoginUserDto loginUserDto){
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUserDto.getEmail(),loginUserDto.getPassword()));
+        Optional<User> userOptional = repository.findByEmail(loginUserDto.getEmail());
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            String jwtToken = jwtService.generateToken(user);
+            return ResponseEntity.status(HttpStatus.OK).body(AuthenticationResponse.builder().token(jwtToken).build());
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(AuthenticationResponse.builder().token(null).build());
     }
 }
