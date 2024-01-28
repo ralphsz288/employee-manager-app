@@ -1,4 +1,4 @@
-package com.ralph.employeemanager.config;
+package com.ralph.employeemanager.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -20,6 +20,11 @@ public class JwtService {
     private static final String KEY = "d839b6cda18d1a34af9815f134dd4d91ccefc1561e192a84674b4734dd856ecd";
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public String extractUsernameFromHeader(String authorizationHeader) {
+        String jwt = authorizationHeader.substring(7);
+        return extractUsername(jwt);
     }
 
     public Date extractExpiration(String token) {

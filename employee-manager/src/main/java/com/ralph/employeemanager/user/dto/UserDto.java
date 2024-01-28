@@ -9,7 +9,7 @@ import lombok.Data;
 
 
 @Data
-public class RegisterUserDto {
+public class UserDto {
     private String id;
 
     @NotEmpty(message = "First name is required")

@@ -1,6 +1,7 @@
 package com.ralph.employeemanager.team;
 
-import com.ralph.employeemanager.config.JwtService;
+import com.ralph.employeemanager.service.AuthorizationService;
+import com.ralph.employeemanager.service.JwtService;
 import com.ralph.employeemanager.service.DtoConversionService;
 import com.ralph.employeemanager.team.dto.CreateTeamDto;
 import com.ralph.employeemanager.team.dto.RemoveUserDto;
@@ -21,27 +22,26 @@ import java.util.Optional;
 @AllArgsConstructor
 public class TeamController {
     private final TeamRepository repository;
-
     private final UserRepository userRepository;
     private JwtService jwtService;
     private final DtoConversionService dtoConversionService;
+    private final AuthorizationService authorizationService;
 
     @GetMapping("/get")
 
     public ResponseEntity<List<Team>> get(
         @RequestParam String userId,
         @RequestHeader("Authorization") String authorizationHeader) {
-            String jwt = authorizationHeader.substring(7);
-            final String username = jwtService.extractUsername(jwt);
+            String username = jwtService.extractUsernameFromHeader(authorizationHeader);
+            System.out.println(username);
             User user = userRepository.findByEmail(username).get();
-
+            authorizationService.checkPermission(user,userId);
             if (user.getId().equals(userId) || user.getRole().equals(Role.ADMIN)) {
                 List<Team> resp = this.repository.findByOwner(userId);
                 return ResponseEntity.status(HttpStatus.OK).body(resp);
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
             }
-
     }
 
     @PostMapping("/create")

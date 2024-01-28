@@ -3,14 +3,14 @@ package com.ralph.employeemanager.service;
 import com.ralph.employeemanager.team.Team;
 import com.ralph.employeemanager.team.dto.CreateTeamDto;
 import com.ralph.employeemanager.user.User;
-import com.ralph.employeemanager.user.dto.RegisterUserDto;
+import com.ralph.employeemanager.user.dto.UserDto;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
 @Service
 public class DtoConversionService {
-    public User convertRegisterUserDtoToEntity(RegisterUserDto userDto) {
+    public User convertUserDtoToEntity(UserDto userDto) {
         User user = new User();
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -18,8 +18,18 @@ public class DtoConversionService {
         user.setPassword(userDto.getPassword());
         user.setImageUrl(userDto.getImageUrl());
         user.setRole(userDto.getRole());
-
         return user;
+    }
+
+    public UserDto convertEntityToUserDto(User user) {
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setFirstName(user.getFirstName());
+        userDto.setLastName(user.getLastName());
+        userDto.setEmail(user.getEmail());
+        userDto.setImageUrl(user.getImageUrl());
+        userDto.setRole(user.getRole());
+        return userDto;
     }
 
     public Team convertCreateTeamDtoToEntity(CreateTeamDto createTeamDto) {

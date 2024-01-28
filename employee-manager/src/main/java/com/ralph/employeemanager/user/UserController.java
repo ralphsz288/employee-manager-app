@@ -1,57 +1,39 @@
 package com.ralph.employeemanager.user;
 
-import com.ralph.employeemanager.config.JwtAuthenticationFilter;
-import com.ralph.employeemanager.config.JwtService;
-import com.ralph.employeemanager.service.DtoConversionService;
+import com.ralph.employeemanager.user.dto.AuthenticationResponse;
 import com.ralph.employeemanager.user.dto.LoginUserDto;
-import com.ralph.employeemanager.user.dto.RegisterUserDto;
+import com.ralph.employeemanager.user.dto.UserDto;
+import com.ralph.employeemanager.user.dto.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.swing.text.html.Option;
-import java.util.Optional;
-
 @RestController
 @RequestMapping("employee.management/user")
 @AllArgsConstructor
 public class UserController {
+    private final UserService userService;
     private final UserRepository repository;
-    private PasswordEncoder passwordEncoder;
-    private JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
-    private final DtoConversionService dtoConversionService;
+
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterUserDto> register(@Valid @RequestBody RegisterUserDto registerUserDto){
+    public ResponseEntity<UserDto> register(@Valid @RequestBody UserDto registerUserDto){
         if (repository.findByEmail(registerUserDto.getEmail()).isPresent()) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
         } else {
-            User user = dtoConversionService.convertRegisterUserDtoToEntity(registerUserDto);
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-            repository.save(user);
-            registerUserDto.setId(user.getId());
-            return ResponseEntity.status(HttpStatus.OK).body(registerUserDto);
+            UserDto response = userService.register(registerUserDto);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         }
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody LoginUserDto loginUserDto){
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUserDto.getEmail(),loginUserDto.getPassword()));
-        Optional<User> userOptional = repository.findByEmail(loginUserDto.getEmail());
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            String jwtToken = jwtService.generateToken(user);
-            return ResponseEntity.status(HttpStatus.OK).body(AuthenticationResponse.builder().token(jwtToken).build());
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(AuthenticationResponse.builder().token(null).build());
+        AuthenticationResponse response = userService.login(loginUserDto);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
