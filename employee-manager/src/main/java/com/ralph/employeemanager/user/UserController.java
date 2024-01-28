@@ -3,7 +3,6 @@ package com.ralph.employeemanager.user;
 import com.ralph.employeemanager.user.dto.AuthenticationResponse;
 import com.ralph.employeemanager.user.dto.LoginUserDto;
 import com.ralph.employeemanager.user.dto.UserDto;
-import com.ralph.employeemanager.user.dto.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

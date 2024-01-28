@@ -1,9 +1,12 @@
-package com.ralph.employeemanager.user.dto;
+package com.ralph.employeemanager.user;
 
 import com.ralph.employeemanager.service.DtoConversionService;
 import com.ralph.employeemanager.service.JwtService;
 import com.ralph.employeemanager.user.User;
 import com.ralph.employeemanager.user.UserRepository;
+import com.ralph.employeemanager.user.dto.AuthenticationResponse;
+import com.ralph.employeemanager.user.dto.LoginUserDto;
+import com.ralph.employeemanager.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,7 +20,6 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class UserService {
-
     private final UserRepository repository;
     private PasswordEncoder passwordEncoder;
     private JwtService jwtService;
