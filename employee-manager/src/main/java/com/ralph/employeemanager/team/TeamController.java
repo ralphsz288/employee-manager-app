@@ -56,6 +56,8 @@ public class TeamController {
             return ResponseEntity.status(HttpStatus.OK).body(team);
     }
 
+
+
     @PutMapping("/addUser")
     public ResponseEntity<Team> add(
         @Valid
@@ -72,5 +74,13 @@ public class TeamController {
         @RequestHeader("Authorization") String authorizationHeader) {
             Boolean response = teamService.removeUser(removeUserDto, authorizationHeader);
             return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Boolean> delete(
+            @RequestParam String teamId,
+            @RequestHeader("Authorization") String authorizationHeader) {
+        Boolean resp = teamService.deleteTeam(teamId,authorizationHeader);
+        return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
 }
