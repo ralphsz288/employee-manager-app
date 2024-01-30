@@ -36,7 +36,6 @@ public class TeamController {
         List<Team> resp = this.repository.findByMembersContains(userId);
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
-
     @GetMapping("/getTeamsByOwner")
     public ResponseEntity<List<Team>> getManagedTeams(
         @RequestParam String userId,
@@ -45,7 +44,6 @@ public class TeamController {
             List<Team> resp = this.repository.findByOwner(userId);
             return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
-
     @PostMapping("/create")
     public ResponseEntity<Team> create(
         @Valid
@@ -55,9 +53,6 @@ public class TeamController {
             Team team = teamService.createTeam(createTeamDto);
             return ResponseEntity.status(HttpStatus.OK).body(team);
     }
-
-
-
     @PutMapping("/addUser")
     public ResponseEntity<Team> add(
         @Valid
@@ -66,7 +61,6 @@ public class TeamController {
             Team team = teamService.addUser(addUserDto,authorizationHeader);
             return ResponseEntity.status(HttpStatus.OK).body(team);
     }
-
     @PatchMapping("/removeUser")
     public ResponseEntity<Boolean> removeUser(
         @Valid
@@ -75,7 +69,6 @@ public class TeamController {
             Boolean response = teamService.removeUser(removeUserDto, authorizationHeader);
             return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-
     @DeleteMapping("/delete")
     public ResponseEntity<Boolean> delete(
             @RequestParam String teamId,

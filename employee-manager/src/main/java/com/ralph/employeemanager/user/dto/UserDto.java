@@ -30,5 +30,6 @@ public class UserDto {
     @NotNull(message = "Role is required")
     private Role role;
 
-}
+    private Boolean isEnabled;
 
+}
