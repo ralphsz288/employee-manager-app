@@ -1,36 +1,33 @@
 package com.ralph.employeemanager.user;
 
+import com.ralph.employeemanager.confirmation_token.ConfirmationToken;
+import com.ralph.employeemanager.confirmation_token.ConfirmationTokenRepository;
+import com.ralph.employeemanager.confirmation_token.ConfirmationTokenService;
 import com.ralph.employeemanager.service.DtoConversionService;
 import com.ralph.employeemanager.service.EmailService;
 import com.ralph.employeemanager.service.JwtService;
-import com.ralph.employeemanager.user.User;
-import com.ralph.employeemanager.user.UserRepository;
 import com.ralph.employeemanager.user.dto.AuthenticationResponse;
 import com.ralph.employeemanager.user.dto.LoginUserDto;
 import com.ralph.employeemanager.user.dto.RegisterResponseDto;
 import com.ralph.employeemanager.user.dto.UserDto;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
 public class UserService {
     private final UserRepository repository;
+    private final ConfirmationTokenRepository confirmationTokenRepository;
     private PasswordEncoder passwordEncoder;
     private JwtService jwtService;
     private final EmailService emailService;
+    private final ConfirmationTokenService confirmationTokenService;
     private final AuthenticationManager authenticationManager;
     private final DtoConversionService dtoConversionService;
 
@@ -41,11 +38,24 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setIsEnabled(false);
             repository.save(user);
+
             userDto.setId(user.getId());
             userDto.setIsEnabled(false);
+
+            String token = UUID.randomUUID().toString();
+            ConfirmationToken confirmationToken = new ConfirmationToken(
+                    userDto.getId(),
+                    token,
+                    LocalDateTime.now(),
+                    LocalDateTime.now().plusMinutes(15),
+                    null
+            );
+            confirmationTokenService.saveConfirmationToken(confirmationToken);
+
             String link = "http://localhost:8080/confirm";
             emailService.send(user.getEmail(),buildEmail(userDto.getFirstName(), link));
             registerResponseDto.setUserDto(userDto);
+
             return registerResponseDto;
         } catch (IllegalStateException e) {
             Optional<User> user = repository.findByEmail(userDto.getEmail());
@@ -60,6 +70,22 @@ public class UserService {
         User user = userOptional.get();
         String jwtToken = jwtService.generateToken(user);
         return AuthenticationResponse.builder().token(jwtToken).userDto(dtoConversionService.convertEntityToUserDto(user)).build();
+    }
+
+    public String confirmToken(String token) {
+        ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token).orElseThrow(()-> new IllegalStateException("token not found"));
+
+        if (confirmationToken.getConfirmedAt() != null) {
+            throw new IllegalStateException("email already confirmed");
+        }
+
+        LocalDateTime expiredAt = confirmationToken.getExpiresAt();
+        if( expiredAt.isBefore(LocalDateTime.now())) {
+            throw new IllegalStateException("token expired");
+        }
+
+        confirmationTokenRepository.delete(confirmationToken);
+        return "confirmed";
     }
 
     private String buildEmail(String name, String link) {
