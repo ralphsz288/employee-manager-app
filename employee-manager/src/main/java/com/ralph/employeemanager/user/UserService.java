@@ -3,6 +3,7 @@ package com.ralph.employeemanager.user;
 import com.ralph.employeemanager.confirmation_token.ConfirmationToken;
 import com.ralph.employeemanager.confirmation_token.ConfirmationTokenRepository;
 import com.ralph.employeemanager.confirmation_token.ConfirmationTokenService;
+import com.ralph.employeemanager.exception.NotFoundException;
 import com.ralph.employeemanager.service.DtoConversionService;
 import com.ralph.employeemanager.service.EmailService;
 import com.ralph.employeemanager.service.JwtService;
@@ -15,6 +16,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -51,15 +53,15 @@ public class UserService {
                     null
             );
             confirmationTokenService.saveConfirmationToken(confirmationToken);
-
-            String link = "http://localhost:8080/confirm";
+            String link = "http://localhost:8080/employee.management/user/confirm?token=" + confirmationToken.getToken();
             emailService.send(user.getEmail(),buildEmail(userDto.getFirstName(), link));
             registerResponseDto.setUserDto(userDto);
-
             return registerResponseDto;
+
         } catch (IllegalStateException e) {
             Optional<User> user = repository.findByEmail(userDto.getEmail());
-            repository.delete(user.get());
+            user.ifPresent(repository::delete);
+
             registerResponseDto.setErrorMessage(e.getMessage());
             return registerResponseDto;
         }
@@ -72,20 +74,27 @@ public class UserService {
         return AuthenticationResponse.builder().token(jwtToken).userDto(dtoConversionService.convertEntityToUserDto(user)).build();
     }
 
-    public String confirmToken(String token) {
+    @Transactional
+    public Boolean confirmToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token).orElseThrow(()-> new IllegalStateException("token not found"));
-
-        if (confirmationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("email already confirmed");
-        }
 
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
         if( expiredAt.isBefore(LocalDateTime.now())) {
             throw new IllegalStateException("token expired");
         }
-
-        confirmationTokenRepository.delete(confirmationToken);
-        return "confirmed";
+        if (repository.findById(confirmationToken.getUserId()).isPresent()) {
+            User user = repository.findById(confirmationToken.getUserId()).get();
+            if (user.getIsEnabled()) {
+                confirmationTokenRepository.delete(confirmationToken);
+                throw new NotFoundException("Email was already confirmed");
+            }
+            user.setIsEnabled(true);
+            repository.save(user);
+            confirmationTokenRepository.delete(confirmationToken);
+            return true;
+        } else {
+            throw new NotFoundException("User not found");
+        }
     }
 
     private String buildEmail(String name, String link) {

@@ -1,5 +1,6 @@
 package com.ralph.employeemanager.user;
 
+import com.ralph.employeemanager.confirmation_token.ConfirmationTokenService;
 import com.ralph.employeemanager.user.dto.AuthenticationResponse;
 import com.ralph.employeemanager.user.dto.LoginUserDto;
 import com.ralph.employeemanager.user.dto.RegisterResponseDto;
@@ -33,6 +34,12 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody LoginUserDto loginUserDto){
         AuthenticationResponse response = userService.login(loginUserDto);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/confirm")
+    public ResponseEntity<Boolean> confirm(@RequestParam("token") String token){
+        Boolean response = userService.confirmToken(token);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
