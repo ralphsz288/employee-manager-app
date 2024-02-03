@@ -36,7 +36,6 @@ public class UserController {
         AuthenticationResponse response = userService.login(loginUserDto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
-
     @GetMapping("/confirm")
     public ResponseEntity<String> confirm(@RequestParam("token") String token){
         String response = userService.confirmToken(token);
