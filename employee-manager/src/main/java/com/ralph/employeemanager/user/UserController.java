@@ -38,8 +38,8 @@ public class UserController {
     }
 
     @GetMapping("/confirm")
-    public ResponseEntity<Boolean> confirm(@RequestParam("token") String token){
-        Boolean response = userService.confirmToken(token);
+    public ResponseEntity<String> confirm(@RequestParam("token") String token){
+        String response = userService.confirmToken(token);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

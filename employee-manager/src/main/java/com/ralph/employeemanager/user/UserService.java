@@ -26,8 +26,8 @@ import java.util.*;
 public class UserService {
     private final UserRepository repository;
     private final ConfirmationTokenRepository confirmationTokenRepository;
-    private PasswordEncoder passwordEncoder;
-    private JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
     private final EmailService emailService;
     private final ConfirmationTokenService confirmationTokenService;
     private final AuthenticationManager authenticationManager;
@@ -40,18 +40,10 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setIsEnabled(false);
             repository.save(user);
-
             userDto.setId(user.getId());
             userDto.setIsEnabled(false);
 
-            String token = UUID.randomUUID().toString();
-            ConfirmationToken confirmationToken = new ConfirmationToken(
-                    userDto.getId(),
-                    token,
-                    LocalDateTime.now(),
-                    LocalDateTime.now().plusMinutes(15),
-                    null
-            );
+            ConfirmationToken confirmationToken = generateConfirmationToken(userDto.getId());
             confirmationTokenService.saveConfirmationToken(confirmationToken);
             String link = "http://localhost:8080/employee.management/user/confirm?token=" + confirmationToken.getToken();
             emailService.send(user.getEmail(),buildEmail(userDto.getFirstName(), link));
@@ -61,7 +53,6 @@ public class UserService {
         } catch (IllegalStateException e) {
             Optional<User> user = repository.findByEmail(userDto.getEmail());
             user.ifPresent(repository::delete);
-
             registerResponseDto.setErrorMessage(e.getMessage());
             return registerResponseDto;
         }
@@ -75,26 +66,35 @@ public class UserService {
     }
 
     @Transactional
-    public Boolean confirmToken(String token) {
+    public String confirmToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token).orElseThrow(()-> new IllegalStateException("token not found"));
 
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
         if( expiredAt.isBefore(LocalDateTime.now())) {
             throw new IllegalStateException("token expired");
         }
-        if (repository.findById(confirmationToken.getUserId()).isPresent()) {
-            User user = repository.findById(confirmationToken.getUserId()).get();
-            if (user.getIsEnabled()) {
-                confirmationTokenRepository.delete(confirmationToken);
-                throw new NotFoundException("Email was already confirmed");
-            }
-            user.setIsEnabled(true);
-            repository.save(user);
+
+        User user = repository.findById(confirmationToken.getUserId()).orElseThrow(() -> new NotFoundException("User not found"));
+        if (user.getIsEnabled()) {
             confirmationTokenRepository.delete(confirmationToken);
-            return true;
-        } else {
-            throw new NotFoundException("User not found");
+            throw new NotFoundException("Email was already confirmed");
         }
+
+        user.setIsEnabled(true);
+        repository.save(user);
+        confirmationTokenRepository.delete(confirmationToken);
+        return "Confirmation successful";
+    }
+
+    private ConfirmationToken generateConfirmationToken(String userId) {
+        String token = UUID.randomUUID().toString();
+        ConfirmationToken confirmationToken = new ConfirmationToken(
+                userId,
+                token,
+                LocalDateTime.now(),
+                LocalDateTime.now().plusMinutes(15)
+        );
+        return confirmationToken;
     }
 
     private String buildEmail(String name, String link) {
