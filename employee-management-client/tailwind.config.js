@@ -4,7 +4,12 @@ module.exports = {
     "./src/**/*.{html,ts}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'aleo' : ['Aleo', 'serif'],
+        'roboto' : ['Roboto', 'sans-serif']
+      }
+    },
   },
   plugins: [],
 }
