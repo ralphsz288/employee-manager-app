@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Aleo&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:ital@1&display=swap');
 
 @tailwind base;
 @tailwind components;
