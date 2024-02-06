@@ -7,6 +7,7 @@ import { HeaderComponent } from './header/header.component';
 import { BodyComponent } from './body/body.component';
 import { MyTeamsComponent } from './teams/my-teams/my-teams.component';
 import { ManagedTeamsComponent } from './teams/managed-teams/managed-teams.component';
+import { AuthComponent } from './auth/auth.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { ManagedTeamsComponent } from './teams/managed-teams/managed-teams.compo
     BodyComponent,
     MyTeamsComponent,
     ManagedTeamsComponent,
+    AuthComponent,
   ],
   imports: [
     BrowserModule,
