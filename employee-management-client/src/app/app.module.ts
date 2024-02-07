@@ -8,6 +8,8 @@ import { BodyComponent } from './body/body.component';
 import { MyTeamsComponent } from './teams/my-teams/my-teams.component';
 import { ManagedTeamsComponent } from './teams/managed-teams/managed-teams.component';
 import { AuthComponent } from './auth/auth.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +19,8 @@ import { AuthComponent } from './auth/auth.component';
     MyTeamsComponent,
     ManagedTeamsComponent,
     AuthComponent,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

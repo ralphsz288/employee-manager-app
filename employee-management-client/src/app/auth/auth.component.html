@@ -1,36 +1,10 @@
-    <div class="flex h-screen w-screen font-roboto">
-        <div class="w-1/2 h-screen">
-            <!-- <img class="h-full object-cover" src="https://www.creativefabrica.com/wp-content/uploads/2020/03/14/A-city-background-with-many-buildings-Graphics-3653585-1.jpg"> -->
-            <img class="h-full object-cover" src="https://www.creativefabrica.com/wp-content/uploads/2020/03/08/City-background-with-lots-of-buildings-Graphics-3379576-1.jpg">
-        </div>
-        <div class="w-1/2 flex flex-col justify-center bg-blue-50">
-            <div class="w-[60%] m-auto flex flex-col items-start justify-center p-6 bg-white space-y-4 rounded-lg border border-gray-300 shadow-lg">
-                <h1 class="font-bold text-xl text-slate-900">
-                    Sign in to your account
-                </h1>
-                <div class="w-full">
-                    <label for="password" class="block mb-2 text-sm font-medium text-black">Email</label>
-                      <input placeholder="name@company.com" class="font-roboto w-full bg-gray-50 border border-blue-400 text-black rounded-lg block p-2.5">
-                </div>
-                <div class="w-full">
-                    <label for="password" class="block mb-2 text-sm font-medium text-black">Password</label>
-                    <input placeholder="*********" class="w-full bg-gray-50 border border-blue-400 text-black rounded-lg p-2.5">
-                </div>
-                <div class="flex justify-between w-full">
-                    <div class="flex items-start">
-                        <div class="flex items-center h-5">
-                          <input id="remember" aria-describedby="remember" type="checkbox" class="w-4 h-4 border border-blue-400 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800" required="">
-                        </div>
-                        <div class="ml-3 text-sm">
-                          <label for="remember" class="text-gray-500">Remember me</label>
-                        </div>
-                    </div>
-                    <a href="#" class="text-blue-500 text-sm text-primary-600 hover:underline dark:text-primary-500">Forgot password?</a>
-                </div>
-                <button type="submit" class="w-full text-white bg-gradient-to-r from-blue-900 to-blue-100 border-2 border-white hover:bg-primary-700 rounded-lg text-sm px-5 py-2.5 text-center">Sign in</button>
-                  <p class="text-sm font-light text-gray-500">
-                      Don’t have an account yet? <a href="#" class="font-medium text-blue-700 hover:underline">Sign up</a>
-                  </p>
-            </div>
-        </div>
+<div class="flex h-screen w-screen font-roboto">
+    <div class="w-1/2 h-screen">
+        <!-- <img class="h-full object-cover" src="https://www.creativefabrica.com/wp-content/uploads/2020/03/14/A-city-background-with-many-buildings-Graphics-3653585-1.jpg"> -->
+        <img class="h-full object-cover" src="https://www.creativefabrica.com/wp-content/uploads/2020/03/08/City-background-with-lots-of-buildings-Graphics-3379576-1.jpg">
     </div>
+    <div class="w-1/2 flex flex-col justify-center bg-blue-50">
+        <app-register></app-register>
+        <!-- <app-login></app-login> -->
+    </div>
+</div>
