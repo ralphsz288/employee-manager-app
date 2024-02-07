@@ -1,31 +1,71 @@
-<div class="w-[60%] m-auto flex flex-col items-start justify-center p-6 bg-white/50 space-y-4 rounded-lg border border-gray-300 shadow-lg">
-    <h1 class="font-bold text-xl text-slate-900 mb-2">
-        Create an account
-    </h1>
-    <div class="w-full flex justify-between">
-        <div class="w-full pr-2">
-            <label for="first_name" class="block mb-2 text-sm font-medium text-black">First name</label>
-            <input placeholder="John" class="font-roboto w-full bg-gray-50 border border-blue-400 text-black rounded-lg block p-2.5">
+<form (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <div class="w-[60%] m-auto flex flex-col items-start justify-center p-6 bg-white/50 space-y-4 rounded-lg border border-gray-300 shadow-lg">
+        <h1 class="font-bold text-xl text-slate-900 mb-2">
+            Create an account
+        </h1>
+        <div class="w-full flex justify-between">
+            <div class="w-full pr-2">
+                <label for="first_name" class="block mb-2 text-sm font-medium text-black">First name</label>
+                <input 
+                    class="font-roboto w-full bg-gray-50 border border-blue-400 text-black rounded-lg block p-2.5"
+                    placeholder="John"
+                    id="first_name"
+                    [(ngModel)]="first_name"
+                    name="firstName"
+                    required 
+                >
+            </div>
+            <div class="w-full pl-2">
+                <label for="last_name" class="block mb-2 text-sm font-medium text-black">Last name</label>
+                <input
+                    class="font-roboto w-full bg-gray-50 border border-blue-400 text-black rounded-lg block p-2.5" 
+                    placeholder="Doe" 
+                    id="last_name"
+                    [(ngModel)]="last_name"
+                    name="lastName"
+                    required
+                >
+            </div>
         </div>
-        <div class="w-full pl-2">
-            <label for="last_name" class="block mb-2 text-sm font-medium text-black">Last name</label>
-            <input placeholder="Doe" class="font-roboto w-full bg-gray-50 border border-blue-400 text-black rounded-lg block p-2.5">
+        <div class="w-full">
+            <label for="email" class="block mb-2 text-sm font-medium text-black">Email</label>
+            <input 
+                class="w-full font-robotobg-gray-50 border border-blue-400 text-black rounded-lg block p-2.5"
+                placeholder="name@company.com"
+                id="email"
+                [(ngModel)]="email"
+                name="email"
+                required
+                type="email"
+            >
         </div>
+        <div class="w-full">
+            <label for="password" class="block mb-2 text-sm font-medium text-black">Password</label>
+            <input 
+                class="w-full bg-gray-50 border border-blue-400 text-black rounded-lg p-2.5"
+                placeholder=""
+                id="password"
+                [(ngModel)]="password"
+                name="password"
+                required
+                type="password" 
+            >
+        </div>
+        <div class="w-full">
+            <label for="confirm_password" class="block mb-2 text-sm font-medium text-black">Confirm Password</label>
+            <input 
+                class="w-full bg-gray-50 border border-blue-400 text-black rounded-lg p-2.5"
+                placeholder="*********"
+                id="confirm_password"
+                [(ngModel)]="confirm_password"
+                name="password"
+                required
+                type="password" 
+            >
+        </div>
+        <button type="submit" class="mt-2 w-full text-white bg-gradient-to-r from-blue-900 to-blue-100 border-2 border-white hover:bg-primary-700 rounded-lg text-sm px-5 py-2.5 text-center shadow-sm">Sign up</button>
+        <p class="text-sm font-light text-gray-500">
+            Already have an account? <a href="#" class="font-medium text-blue-700 hover:underline">Login</a>
+        </p>
     </div>
-    <div class="w-full">
-        <label for="email" class="block mb-2 text-sm font-medium text-black">Email</label>
-          <input placeholder="name@company.com" class="w-full font-robotobg-gray-50 border border-blue-400 text-black rounded-lg block p-2.5">
-    </div>
-    <div class="w-full">
-        <label for="password" class="block mb-2 text-sm font-medium text-black">Password</label>
-        <input placeholder="*********" class="w-full bg-gray-50 border border-blue-400 text-black rounded-lg p-2.5">
-    </div>
-    <div class="w-full">
-        <label for="confirm-password" class="block mb-2 text-sm font-medium text-black">Confirm Password</label>
-        <input placeholder="*********" class="w-full bg-gray-50 border border-blue-400 text-black rounded-lg p-2.5">
-    </div>
-    <button type="submit" class="mt-2 w-full text-white bg-gradient-to-r from-blue-900 to-blue-100 border-2 border-white hover:bg-primary-700 rounded-lg text-sm px-5 py-2.5 text-center shadow-sm">Sign up</button>
-      <p class="text-sm font-light text-gray-500">
-          Already have an account? <a href="#" class="font-medium text-blue-700 hover:underline">Login</a>
-      </p>
-</div>
+</form>
