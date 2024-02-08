@@ -13,9 +13,10 @@ import { AuthComponent } from "./auth.component";
         AuthComponent
     ],
     imports: [
+        AuthRoutingModule,
         CommonModule,
         FormsModule,
-        AuthRoutingModule
+        
     ]
 })
 export class AuthModule{}

@@ -5,11 +5,11 @@ import { NgModule } from "@angular/core";
 import { AuthComponent } from "./auth.component";
 
 const appRoutes: Routes = [
-    {path: '', component: AuthComponent, children: [
-        {path: '', redirectTo: 'login', pathMatch: 'full'},
+    {path: '', component: AuthComponent,children: [
+        {path: '', redirectTo:'login', pathMatch: 'full'},
         {path: 'login', component: LoginComponent},
         {path: 'register', component: RegisterComponent}
-    ]},
+    ]}
 ]
 
 @NgModule({

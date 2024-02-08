@@ -21,12 +21,13 @@ import { AuthModule } from './auth/auth.module';
     ManagedTeamsComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
+    BrowserModule,
     AuthModule,
     FormsModule,
     StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([]),
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
