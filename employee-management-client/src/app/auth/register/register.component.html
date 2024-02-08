@@ -43,7 +43,7 @@
             <label for="password" class="block mb-2 text-sm font-medium text-black">Password</label>
             <input 
                 class="w-full bg-gray-50 border border-blue-400 text-black rounded-lg p-2.5"
-                placeholder=""
+                placeholder="*********"
                 id="password"
                 [(ngModel)]="password"
                 name="password"
@@ -65,7 +65,7 @@
         </div>
         <button type="submit" class="mt-2 w-full text-white bg-gradient-to-r from-blue-900 to-blue-100 border-2 border-white hover:bg-primary-700 rounded-lg text-sm px-5 py-2.5 text-center shadow-sm">Sign up</button>
         <p class="text-sm font-light text-gray-500">
-            Already have an account? <a href="#" class="font-medium text-blue-700 hover:underline">Login</a>
+            Already have an account? <a routerLink="/login" class="font-medium text-blue-700 hover:underline">Login</a>
         </p>
     </div>
 </form>
