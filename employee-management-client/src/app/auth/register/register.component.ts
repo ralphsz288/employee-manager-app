@@ -15,6 +15,7 @@ export class RegisterComponent {
   
   onSubmit(form: NgForm) {
     console.log(form.value);
+    console.log(form.valid);
     form.reset();
   }
 }

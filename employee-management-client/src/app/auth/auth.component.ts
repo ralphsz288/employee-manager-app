@@ -6,11 +6,6 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.css'
 })
-export class AuthComponent implements OnInit {
-  constructor(private route: ActivatedRoute) {
+export class AuthComponent{
 
-  }
-  ngOnInit(): void {
-    console.log(this.route.children);
-  }
 }

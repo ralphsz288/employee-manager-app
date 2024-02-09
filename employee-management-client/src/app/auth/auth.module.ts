@@ -5,18 +5,19 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { AuthRoutingModule } from "./auth-routing-module";
 import { AuthComponent } from "./auth.component";
+import { PasswordValidationDirective } from "./password-validation.directive";
 
 @NgModule({
     declarations: [
         LoginComponent,
         RegisterComponent,
-        AuthComponent
+        AuthComponent,
+        PasswordValidationDirective
     ],
     imports: [
         AuthRoutingModule,
         CommonModule,
         FormsModule,
-        
     ]
 })
 export class AuthModule{}

@@ -12,8 +12,10 @@
                     id="first_name"
                     [(ngModel)]="first_name"
                     name="firstName"
-                    required 
+                    required
+                    #first_name_ctrl="ngModel" 
                 >
+                <p class="block text-red-500 p-2" *ngIf="first_name_ctrl.invalid && first_name_ctrl.touched">*First name is required</p>
             </div>
             <div class="w-full pl-2">
                 <label for="last_name" class="block mb-2 text-sm font-medium text-black">Last name</label>
@@ -24,7 +26,9 @@
                     [(ngModel)]="last_name"
                     name="lastName"
                     required
+                    #last_name_ctrl="ngModel"
                 >
+                <p class="block text-red-500 p-2" *ngIf="last_name_ctrl.invalid && last_name_ctrl.touched">*Last name is required</p>
             </div>
         </div>
         <div class="w-full">
@@ -36,8 +40,11 @@
                 [(ngModel)]="email"
                 name="email"
                 required
-                type="email"
+                email
+                #email_ctrl="ngModel"
             >
+            <p class="block text-red-500 p-2" *ngIf="email_ctrl.invalid && email_ctrl.touched && email =='' ">*Email is required</p>
+            <p class="block text-red-500 p-2" *ngIf="email_ctrl.invalid && email_ctrl.touched && email !=='' ">*Please enter a valid email address</p>
         </div>
         <div class="w-full">
             <label for="password" class="block mb-2 text-sm font-medium text-black">Password</label>
@@ -47,8 +54,9 @@
                 id="password"
                 [(ngModel)]="password"
                 name="password"
+                type="password"
+                #password_ctrl="ngModel"
                 required
-                type="password" 
             >
         </div>
         <div class="w-full">
@@ -58,14 +66,17 @@
                 placeholder="*********"
                 id="confirm_password"
                 [(ngModel)]="confirm_password"
-                name="password"
+                name="confirm_password"
+                type="password"
+                app-password-validation="password"
+                #confirmPassword="ngModel"
                 required
-                type="password" 
             >
+            <div class="block text-red-500" *ngIf="confirmPassword.errors?.['notMatching']">*Passwords do not match.</div>
         </div>
-        <button type="submit" class="mt-2 w-full text-white bg-gradient-to-r from-blue-900 to-blue-100 border-2 border-white hover:bg-primary-700 rounded-lg text-sm px-5 py-2.5 text-center shadow-sm">Sign up</button>
+        <button [disabled]="!f.valid" type="submit" class="mt-2 w-full text-white bg-gradient-to-r from-blue-900 to-blue-100 border-2 border-white hover:bg-primary-700 rounded-lg text-sm px-5 py-2.5 text-center shadow-sm">Sign up</button>
         <p class="text-sm font-light text-gray-500">
-            Already have an account? <a class="font-medium text-blue-700 hover:underline">Login</a>
+            Already have an account? <a routerLink="/auth/login" class="font-medium text-blue-700 hover:underline">Login</a>
         </p>
     </div>
 </form>
