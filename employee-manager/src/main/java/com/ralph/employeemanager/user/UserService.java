@@ -9,7 +9,7 @@ import com.ralph.employeemanager.service.EmailService;
 import com.ralph.employeemanager.service.JwtService;
 import com.ralph.employeemanager.user.dto.AuthenticationResponse;
 import com.ralph.employeemanager.user.dto.LoginUserDto;
-import com.ralph.employeemanager.user.dto.RegisterResponseDto;
+import com.ralph.employeemanager.user.dto.RegisterResponse;
 import com.ralph.employeemanager.user.dto.UserDto;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,28 +33,26 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final DtoConversionService dtoConversionService;
 
-    public RegisterResponseDto register (UserDto userDto) {
-        RegisterResponseDto registerResponseDto = new RegisterResponseDto();
+    public RegisterResponse register (UserDto userDto) {
+        RegisterResponse registerResponse = new RegisterResponse();
         try {
             User user = dtoConversionService.convertUserDtoToEntity(userDto);
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setIsEnabled(false);
             repository.save(user);
-            userDto.setId(user.getId());
-            userDto.setIsEnabled(false);
 
             ConfirmationToken confirmationToken = generateConfirmationToken(userDto.getId());
             confirmationTokenService.saveConfirmationToken(confirmationToken);
             String link = "http://localhost:8080/employee.management/user/confirm?token=" + confirmationToken.getToken();
             emailService.send(user.getEmail(),buildEmail(userDto.getFirstName(), link));
-            registerResponseDto.setUserDto(userDto);
-            return registerResponseDto;
+            registerResponse.setUserDto(dtoConversionService.convertEntityToUserDto(user));
+            return registerResponse;
 
         } catch (IllegalStateException e) {
             Optional<User> user = repository.findByEmail(userDto.getEmail());
             user.ifPresent(repository::delete);
-            registerResponseDto.setErrorMessage(e.getMessage());
-            return registerResponseDto;
+            registerResponse.setErrorMessage(e.getMessage());
+            return registerResponse;
         }
     }
     public AuthenticationResponse login(LoginUserDto loginUserDto){
@@ -62,6 +60,7 @@ public class UserService {
         Optional<User> userOptional = repository.findByEmail(loginUserDto.getEmail());
         User user = userOptional.get();
         String jwtToken = jwtService.generateToken(user);
+        System.out.println(user);
         return AuthenticationResponse.builder().token(jwtToken).userDto(dtoConversionService.convertEntityToUserDto(user)).build();
     }
 

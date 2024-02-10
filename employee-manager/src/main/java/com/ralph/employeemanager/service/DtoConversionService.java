@@ -29,6 +29,9 @@ public class DtoConversionService {
         userDto.setEmail(user.getEmail());
         userDto.setImageUrl(user.getImageUrl());
         userDto.setRole(user.getRole());
+        userDto.setIsEnabled(user.getIsEnabled());
+        userDto.setIsEnabled(user.getIsEnabled());
+
         return userDto;
     }
 

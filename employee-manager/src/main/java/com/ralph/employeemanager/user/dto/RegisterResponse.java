@@ -3,7 +3,7 @@ package com.ralph.employeemanager.user.dto;
 import lombok.Data;
 
 @Data
-public class RegisterResponseDto {
+public class RegisterResponse {
     private UserDto userDto;
     private String errorMessage;
 }
