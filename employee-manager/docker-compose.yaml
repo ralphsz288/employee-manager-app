@@ -25,13 +25,21 @@ services:
     depends_on:
       - mongo
 
-#  employee-management-server:
-#    image: employee-management-server:latest
-#    restart: always
-#    ports:
-#      - 8080:8080
-#    depends_on:
-#      - mongo
+  # employee-management-server:
+  #   image: employee-management-server:latest
+  #   restart: always
+  #   ports:
+  #     - 8080:8080
+  #   depends_on:
+  #     - mongo
+
+  # employee-management-client:
+  #   image: employee-management-client:latest
+  #   restart: always
+  #   ports:
+  #     - "80:80"
+  #   depends_on:
+  #     - employee-management-server
 
 volumes:
   employee_management_data:
