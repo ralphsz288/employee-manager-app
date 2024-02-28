@@ -7,6 +7,7 @@ import { AuthRoutingModule } from "./auth-routing-module";
 import { AuthComponent } from "./auth.component";
 import { PasswordValidationDirective } from "./password-validation.directive";
 import { HttpClientModule } from "@angular/common/http";
+import { SharedModule } from "../shared/shared.module";
 
 @NgModule({
     declarations: [
@@ -19,7 +20,8 @@ import { HttpClientModule } from "@angular/common/http";
         AuthRoutingModule,
         CommonModule,
         FormsModule,
-        HttpClientModule
+        HttpClientModule,
+        SharedModule
     ]
 })
 export class AuthModule{}

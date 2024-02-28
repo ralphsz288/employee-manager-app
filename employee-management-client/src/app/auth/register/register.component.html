@@ -1,5 +1,30 @@
+<div *ngIf="isLoading" class="absolute inset-0 bg-gray-200 bg-opacity-75 flex justify-center items-center">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+<div *ngIf="showAlert" class="absolute inset-0 bg-gray-200 bg-opacity-75 flex justify-center items-center">
+    <div class="bg-white p-8 pl-20 pr-20 flex flex-col justify-start md:items-center">
+        <img class="size-20" src="https://media.istockphoto.com/id/1125279178/vector/mail-line-icon.jpg?s=612x612&w=0&k=20&c=NASq4hMg0b6UP9V0ru4kxL2-J114O3TaakI467Pzjzw="/>
+        <div class="text-2xl font-roboto font-extrabold text-blue-900">Please verify your email</div>
+        <div class="pt-4">You are almost there! We sent an email to</div>
+        <span class="font-roboto font-extrabold text-blue-900">{{user.email}}</span>
+        <span>Once you confirm your email you can continue using the app</span>
+        <br>
+        <button class="bg-blue-800 hover:bg-blue-700 text-white font-bold py-1 px-12 border border-blue-700 rounded" (click)="onAlertButtonClicked()">
+            Ok
+        </button>
+    </div>
+</div>
+<div *ngIf="showError" class="absolute inset-0 bg-gray-200 bg-opacity-75 flex justify-center items-center">
+    <div class="bg-red-200  border border-red-600 p-8 pl-20 pr-20 flex flex-col justify-start md:items-center">
+        <div class="text-2xl font-roboto font-extrabold text-black">Error</div>
+        <div class="px-2">{{error}}</div>
+        <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-12 border border-black rounded" (click)="onErrorButtonClicked()">
+            Ok
+        </button>
+    </div>
+</div>
 <form (ngSubmit)="onSubmit(f)" #f="ngForm">
-    <div class="w-[60%] m-auto flex flex-col items-start justify-center p-6 bg-white/50 space-y-4 rounded-lg border border-gray-300 shadow-lg">
+    <div class="w-full md:w-[60%] m-auto flex flex-col items-start justify-center p-6 bg-white/50 space-y-4 rounded-lg border border-gray-300 shadow-lg">
         <h1 class="font-bold text-xl text-slate-900 mb-2">
             Create an account
         </h1>
@@ -30,7 +55,7 @@
                 >
                 <p class="block text-red-500 p-2" *ngIf="last_name_ctrl.invalid && last_name_ctrl.touched">*Last name is required</p>
             </div>
-        </div>
+        </div> 
         <div class="w-full">
             <label for="email" class="block mb-2 text-sm font-medium text-black">Email</label>
             <input 

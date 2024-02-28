@@ -4,7 +4,7 @@ import * as fromApp from '../../store/app.reducer';
 import * as AuthActions from '../store/auth.actions'
 import { Store } from "@ngrx/store";
 import { Router } from "@angular/router";
-import { catchError, of, switchMap, tap } from "rxjs";
+import { catchError, map, of, switchMap, tap } from "rxjs";
 import {environment} from '../../environments/environment';
 import { Injectable } from "@angular/core";
 
@@ -22,9 +22,11 @@ export class AuthEffects {
         this.actions$.pipe(
             ofType(AuthActions.signUpStart),
             switchMap((data) => {
+                let url = 'http://localhost:8080/employee.management/user/register';
+                console.log(url);
                 console.log(data);
                 return this.http.post<any>(
-                    'http://localhost:8080/employee.management/user/register',
+                    url,
                     {
                         firstName: data.payload.firstName,
                         lastName: data.payload.lastName,
@@ -35,8 +37,27 @@ export class AuthEffects {
                 ).pipe(
                     tap((res) => {
                         console.log(res);
-                    })
+                    }),
+                    map((res) => {
+                        return AuthActions.signUpSuccess(
+                            {
+                                payload: {
+                                    id: res.id,
+                                    firstName: res.firstname,
+                                    lastName: res.lastName,
+                                    email: res.email,
+                                    imageUrl: res.imageUrl,
+                                    role: res.role,
+                                    isEnabled: res.isEnabled,
+                                }
+                            }
+                        )
+                    }),
+                    catchError((error) => {
+                        return of(AuthActions.authenticationFail({payload: error.error}))
+                    }) 
                 )
             })
-        ))
+        )
+    )
 }

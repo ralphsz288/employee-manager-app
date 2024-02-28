@@ -12,3 +12,27 @@ export const signUpStart = createAction(
         }
     }>()
 )
+
+export const signUpSuccess = createAction(
+    '[Auth] Sign up success',
+    props<{
+        payload: {
+            id: string,
+            firstName: string,
+            lastName: string,
+            email: string,
+            imageUrl: string,
+            role: string,
+            isEnabled: boolean
+        }
+    }>()
+)
+
+export const authenticationFail = createAction(
+    '[Auth] Error',
+    props<{
+        payload: {
+            error: string,
+        }
+    }>()
+)

@@ -25,16 +25,18 @@ services:
     depends_on:
       - mongo
 
-  # employee-management-server:
-  #   image: employee-management-server:latest
-  #   restart: always
-  #   ports:
-  #     - 8080:8080
-  #   depends_on:
-  #     - mongo
+  employee-management-server:
+      image: ralph28/employee-management-server:latest
+      restart: always
+      ports:
+        - 8080:8080
+      depends_on:
+        - mongo
+      environment:
+        SPRING_DATA_MONGODB_URI: ${MONGO_URL}
 
   # employee-management-client:
-  #   image: employee-management-client:latest
+  #   image: ralph28/employee-management-client:latest
   #   restart: always
   #   ports:
   #     - "80:80"

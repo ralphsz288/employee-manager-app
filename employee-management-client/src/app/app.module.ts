@@ -12,6 +12,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { AuthModule } from './auth/auth.module';
 import * as fromApp from './store/app.reducer';
 import { AuthEffects } from './auth/store/auth.effects';
+import { StoreDevtools, StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { AuthEffects } from './auth/store/auth.effects';
     AuthModule,
     FormsModule,
     StoreModule.forRoot(fromApp.appReducer),
+    StoreDevtoolsModule.instrument({}),
     EffectsModule.forRoot([AuthEffects]),
   ],
   providers: [],
