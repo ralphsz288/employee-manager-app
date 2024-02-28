@@ -5,7 +5,7 @@ import * as AuthActions from '../store/auth.actions'
 import { Store } from "@ngrx/store";
 import { Router } from "@angular/router";
 import { catchError, map, of, switchMap, tap } from "rxjs";
-import {environment} from '../../environments/environment';
+import {environment} from '../../../environments/environment';
 import { Injectable } from "@angular/core";
 
 @Injectable()
@@ -22,11 +22,8 @@ export class AuthEffects {
         this.actions$.pipe(
             ofType(AuthActions.signUpStart),
             switchMap((data) => {
-                let url = 'http://localhost:8080/employee.management/user/register';
-                console.log(url);
-                console.log(data);
                 return this.http.post<any>(
-                    url,
+                    environment.auth.registerUrl,
                     {
                         firstName: data.payload.firstName,
                         lastName: data.payload.lastName,
