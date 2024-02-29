@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import * as fromApp from '../../store/app.reducer'
+import * as fromApp from '../../store/app.reducer';
 import * as AuthActions from '../store/auth.actions';
 import { Subscription } from 'rxjs';
 import { User } from '../user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -14,7 +15,7 @@ import { User } from '../user.model';
 export class RegisterComponent implements OnInit {
   last_name: string = '';
   first_name: string = '';
-  email: string = 'test@test.com';
+  email: string = '';
   password: string = '';
   confirm_password: string = '';
 
@@ -25,9 +26,9 @@ export class RegisterComponent implements OnInit {
   error: string = null;
   user:User = null;
 
-  private storeSub: Subscription;
+  private storeSub: Subscription; 
 
-  constructor(private store: Store<fromApp.AppState>){}
+  constructor(private store: Store<fromApp.AppState>,private router: Router){}
 
   ngOnInit(): void {
     this.storeSub = this.store.select('auth').subscribe(authState => {
@@ -45,18 +46,23 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    this.store.dispatch(AuthActions.signUpStart({payload: {
-      firstName: this.first_name,
-      lastName: this.last_name,
-      email: this.email,
-      password: this.password,
-      role: 'USER',
-    }}))
+    this.store.dispatch(AuthActions.signUpStart(
+      {
+        payload: {
+          firstName: this.first_name,
+          lastName: this.last_name,
+          email: this.email,
+          password: this.password,
+          role: 'USER',
+        }
+      }
+    ));
     form.reset();
   }
 
   onAlertButtonClicked() {
     this.showAlert = false;
+    this.router.navigate(['auth/login']);
   }
 
   onErrorButtonClicked() {

@@ -1,9 +1,20 @@
+<div *ngIf="isLoading" class="absolute inset-0 bg-gray-200 bg-opacity-75 flex justify-center items-center">
+    <app-loading-spinner></app-loading-spinner>
+</div>
+<div *ngIf="showError" class="absolute inset-0 bg-gray-200 bg-opacity-75 flex justify-center items-center">
+    <div class="bg-red-200  border border-red-600 p-8 pl-20 pr-20 flex flex-col justify-start md:items-center">
+        <div class="text-2xl font-roboto font-extrabold text-black">Error</div>
+        <div class="px-2">{{error}}</div>
+        <button class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-12 border border-black rounded" (click)="onErrorButtonClicked()">
+            Ok
+        </button>
+    </div>
+</div>
 <form (ngSubmit)="onSubmit(f)" #f="ngForm">
     <div class="w-[60%] m-auto flex flex-col items-start justify-center p-6 bg-white/50 space-y-4 rounded-lg border border-gray-300 shadow-lg">
         <h1 class="font-bold text-xl text-slate-900">
             Sign in to your account
         </h1>
-        
             <div class="w-full">
                 <label for="email" class="block mb-2 text-sm font-medium text-black">Email</label>
                 <input 
@@ -12,13 +23,23 @@
                     type="email"
                     id="email"
                     name="email"
-                    ngModel
+                    [(ngModel)]="email"
+                    #email_ctrl="ngModel"
                     required
                 >
             </div>
             <div class="w-full">
                 <label for="password" class="block mb-2 text-sm font-medium text-black">Password</label>
-                <input placeholder="*********" class="w-full bg-gray-50 border border-blue-400 text-black rounded-lg p-2.5">
+                <input 
+                    class="w-full bg-gray-50 border border-blue-400 text-black rounded-lg p-2.5"  
+                    placeholder="*********"
+                    type="password"
+                    id="password"
+                    name="password"
+                    [(ngModel)]="password"
+                    #password_ctrl="ngModel"
+                    required
+                >
             </div>
             <div class="flex justify-between w-full">
                 <div class="flex items-start">
@@ -34,7 +55,6 @@
             <button 
                 class="w-full text-white bg-gradient-to-r from-blue-900 to-blue-100 border-2 border-white hover:bg-primary-700 rounded-lg text-sm px-5 py-2.5 text-center shadow-sm"
                 type="submit"
-                (click)="onSubmit(f)" 
                 >
                 Sign in
             </button>

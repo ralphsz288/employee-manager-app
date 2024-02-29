@@ -32,9 +32,6 @@ export class AuthEffects {
                         role: data.payload.role
                     }
                 ).pipe(
-                    tap((res) => {
-                        console.log(res);
-                    }),
                     map((res) => {
                         return AuthActions.signUpSuccess(
                             {
@@ -57,4 +54,44 @@ export class AuthEffects {
             })
         )
     )
+
+    authLogin = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AuthActions.loginStart),
+            switchMap((data) => {
+                console.log(data);
+                return this.http.post<any>(
+                    environment.auth.loginUrl,
+                    {
+                        email: data.payload.email,
+                        password: data.payload.passsword
+                    }
+                ).pipe(
+                    map((res) => {
+                        console.log(res);
+                        return AuthActions.loginSuccess(
+                            {
+                                payload: {
+                                    token: res.token,
+                                    user: {
+                                        id: res.id,
+                                        firstName: res.userDto.firstname,
+                                        lastName: res.userDto.lastName,
+                                        email: res.userDto.email,
+                                        imageUrl: res.userDto.imageUrl,
+                                        role: res.userDto.role,
+                                        isEnabled: res.userDto.isEnabled,
+                                    }
+                                }
+                            }
+                        )
+                    }),
+                    catchError((error) => {
+                        return of(AuthActions.authenticationFail({payload: error.error}))
+                    }) 
+                )
+            })
+        )
+    )
+
 }
