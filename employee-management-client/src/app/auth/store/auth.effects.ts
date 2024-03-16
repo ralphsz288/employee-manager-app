@@ -98,7 +98,7 @@ export class AuthEffects {
     this.actions$.pipe(
         ofType(AuthActions.loginSuccess),
         tap((action) => {
-            this.router.navigateByUrl('/path-to-navigate-to-after-success');
+            this.router.navigate(['my-teams']);
         })
     ),
     { dispatch: false }
