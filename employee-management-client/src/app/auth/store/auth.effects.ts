@@ -90,8 +90,19 @@ export class AuthEffects {
                         return of(AuthActions.authenticationFail({payload: error.error}))
                     }) 
                 )
-            })
+            }) 
         )
     )
+
+    authLoginSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+        ofType(AuthActions.loginSuccess),
+        tap((action) => {
+            this.router.navigateByUrl('/path-to-navigate-to-after-success');
+        })
+    ),
+    { dispatch: false }
+);
+
 
 }

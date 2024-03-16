@@ -40,8 +40,9 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setIsEnabled(false);
             repository.save(user);
+            System.out.println(user);
 
-            ConfirmationToken confirmationToken = generateConfirmationToken(userDto.getId());
+            ConfirmationToken confirmationToken = generateConfirmationToken(user.getId());
             confirmationTokenService.saveConfirmationToken(confirmationToken);
             String link = "http://localhost:8080/employee.management/user/confirm?token=" + confirmationToken.getToken();
             emailService.send(user.getEmail(),buildEmail(userDto.getFirstName(), link));

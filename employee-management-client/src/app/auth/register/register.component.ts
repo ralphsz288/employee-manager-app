@@ -37,10 +37,7 @@ export class RegisterComponent implements OnInit {
       if (this.error) {
         this.showError = true;
       } else {
-        this.user = authState.user;
-        if (this.user) {
-          this.showAlert = true;
-        }
+        this.showAlert = authState.signUpSent;
       }
     });
   }

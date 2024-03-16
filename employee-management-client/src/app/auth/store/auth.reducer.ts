@@ -6,6 +6,7 @@ export interface State {
     user: User | null;
     token: string | null;
     authError: string | null;
+    signUpSent: boolean;
     loading: boolean;
 }
 
@@ -13,6 +14,7 @@ const initialState: State = {
     user: null,
     token: null,
     authError: null,
+    signUpSent: false,
     loading: false
 };
 
@@ -26,18 +28,10 @@ export const authReducer = createReducer(
         }
     }),
     on(signUpSuccess, (state, action) => {
-        const user = new User (
-            action.payload.id,
-            action.payload.firstName,
-            action.payload.lastName,
-            action.payload.email,
-            action.payload.imageUrl,
-            action.payload.role,
-        )
         return {
             ...state,
             authError: null,
-            user: user,
+            signUpSent: true,
             loading: false
         }
     }),
@@ -66,6 +60,7 @@ export const authReducer = createReducer(
         }
     }),
     on(authenticationFail, (state, action) => {
+        console.log(action);
         return {
             ...state,
             authError: action.payload.error,
