@@ -55,6 +55,10 @@ export const loginSuccess = createAction(
     }>()
 )
 
+export const autoLogin = createAction(
+    '[Auth] Auto login',
+)
+
 export const authenticationFail = createAction(
     '[Auth] Error',
     props<{

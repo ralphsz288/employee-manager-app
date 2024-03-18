@@ -7,6 +7,8 @@ import { Router } from "@angular/router";
 import { catchError, map, of, switchMap, tap } from "rxjs";
 import {environment} from '../../../environments/environment';
 import { Injectable } from "@angular/core";
+import { CookieService } from "ngx-cookie-service";
+import { User } from "../user.model";
 
 @Injectable()
 export class AuthEffects {
@@ -15,7 +17,8 @@ export class AuthEffects {
         private http: HttpClient,
         private actions$: Actions,
         private store: Store<fromApp.AppState>,
-        private router: Router
+        private router: Router,
+        private cookieService: CookieService
     ){}
 
     authSignUp = createEffect(() => 
@@ -94,13 +97,40 @@ export class AuthEffects {
         )
     )
 
+    autoLogin = createEffect(() => 
+        this.actions$.pipe(
+            ofType(AuthActions.autoLogin),
+            map((data) => {
+                // this.cookieService.delete('user');
+                const userData = this.cookieService.get('user');
+                if (!userData) {
+                    this.router.navigate(['auth/login']);
+                    return null
+                } else {
+                    var usr = this.cookieService.get('user');
+                    console.log(usr);
+                }
+            }
+        )
+    ),{ dispatch: false })
+
     authLoginSuccess$ = createEffect(() =>
-    this.actions$.pipe(
-        ofType(AuthActions.loginSuccess),
-        tap((action) => {
-            this.router.navigate(['my-teams']);
-        })
-    ),
+        this.actions$.pipe(
+            ofType(AuthActions.loginSuccess),
+            tap((action) => {
+                const user = new User (
+                    action.payload.user.id,
+                    action.payload.user.firstName,
+                    action.payload.user.lastName,
+                    action.payload.user.email,
+                    action.payload.user.imageUrl,
+                    action.payload.user.role,
+                )
+                this.cookieService.set('user',JSON.stringify(user));
+                this.cookieService.set('token',JSON.stringify(action.payload.token));
+                this.router.navigate(['my-teams']);
+            })
+        ),
     { dispatch: false }
 );
 
