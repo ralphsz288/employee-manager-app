@@ -41,4 +41,8 @@ public class UserController {
         String response = userService.confirmToken(token);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+    @GetMapping("/checkToken")
+    public ResponseEntity<?> checkToken(@RequestHeader("Authorization") String authorizationHeader){
+        return ResponseEntity.status(HttpStatus.OK).body(Collections.singletonMap("message", "token valid"));
+    }
 }

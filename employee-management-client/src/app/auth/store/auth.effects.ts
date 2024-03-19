@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import * as fromApp from '../../store/app.reducer';
 import * as AuthActions from '../store/auth.actions'
@@ -100,19 +100,34 @@ export class AuthEffects {
     autoLogin = createEffect(() => 
         this.actions$.pipe(
             ofType(AuthActions.autoLogin),
-            map((data) => {
+            switchMap((data) => {
                 // this.cookieService.delete('user');
                 const userData = this.cookieService.get('user');
                 if (!userData) {
                     this.router.navigate(['auth/login']);
-                    return null
+                    return of(null);
                 } else {
-                    var usr = this.cookieService.get('user');
-                    console.log(usr);
+                    var token = this.cookieService.get('token');
+                    token = JSON.parse(token);
+                    token = 'Bearer ' + token;
+                    const headers = new HttpHeaders({
+                        'Authorization': token,
+                        'Content-Type': 'application/json'
+                    });                    
+                    return this.http.get<any>(
+                        environment.auth.checkTokenUrl,
+                        {headers: headers}
+                    ).pipe(
+                        tap((res) => {
+                            console.log(JSON.stringify(res));
+                            var usr = this.cookieService.get('user');
+                        })
+                    )
                 }
-            }
-        )
-    ),{ dispatch: false })
+            })
+        ),
+        { dispatch: false }
+    );
 
     authLoginSuccess$ = createEffect(() =>
         this.actions$.pipe(
@@ -131,8 +146,8 @@ export class AuthEffects {
                 this.router.navigate(['my-teams']);
             })
         ),
-    { dispatch: false }
-);
+        { dispatch: false }
+    );
 
 
 }
