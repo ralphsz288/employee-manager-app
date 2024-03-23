@@ -43,6 +43,7 @@ public class UserController {
     }
     @GetMapping("/checkToken")
     public ResponseEntity<?> checkToken(@RequestHeader("Authorization") String authorizationHeader){
-        return ResponseEntity.status(HttpStatus.OK).body(Collections.singletonMap("message", "token valid"));
+        String resp = userService.getUserDataFromJWT(authorizationHeader);
+        return ResponseEntity.status(HttpStatus.OK).body(Collections.singletonMap("name", resp));
     }
 }

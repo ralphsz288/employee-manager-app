@@ -4,7 +4,7 @@ import * as fromApp from '../../store/app.reducer';
 import * as AuthActions from '../store/auth.actions'
 import { Store } from "@ngrx/store";
 import { Router } from "@angular/router";
-import { catchError, map, of, switchMap, tap } from "rxjs";
+import { EMPTY, catchError, map, of, switchMap, tap } from "rxjs";
 import {environment} from '../../../environments/environment';
 import { Injectable } from "@angular/core";
 import { CookieService } from "ngx-cookie-service";
@@ -62,7 +62,6 @@ export class AuthEffects {
         this.actions$.pipe(
             ofType(AuthActions.loginStart),
             switchMap((data) => {
-                console.log(data);
                 return this.http.post<any>(
                     environment.auth.loginUrl,
                     {
@@ -71,7 +70,6 @@ export class AuthEffects {
                     }
                 ).pipe(
                     map((res) => {
-                        console.log(res);
                         return AuthActions.loginSuccess(
                             {
                                 payload: {
@@ -101,13 +99,11 @@ export class AuthEffects {
         this.actions$.pipe(
             ofType(AuthActions.autoLogin),
             switchMap((data) => {
-                // this.cookieService.delete('user');
-                const userData = this.cookieService.get('user');
-                if (!userData) {
+                var token = this.cookieService.get('token');
+                if (!token) {
                     this.router.navigate(['auth/login']);
-                    return of(null);
+                    return EMPTY;
                 } else {
-                    var token = this.cookieService.get('token');
                     token = JSON.parse(token);
                     token = 'Bearer ' + token;
                     const headers = new HttpHeaders({
@@ -119,14 +115,20 @@ export class AuthEffects {
                         {headers: headers}
                     ).pipe(
                         tap((res) => {
-                            console.log(JSON.stringify(res));
+                            // res = JSON.stringify(res);
                             var usr = this.cookieService.get('user');
+                        }),
+                        catchError((error) => {
+                            console.log(error);
+                            this.cookieService.delete('user');
+                            this.cookieService.delete('token');
+                            this.router.navigate(['auth/login']);
+                            return of(null);
                         })
                     )
                 }
             })
-        ),
-        { dispatch: false }
+        ),{ dispatch: false }
     );
 
     authLoginSuccess$ = createEffect(() =>
@@ -141,13 +143,11 @@ export class AuthEffects {
                     action.payload.user.imageUrl,
                     action.payload.user.role,
                 )
-                this.cookieService.set('user',JSON.stringify(user));
-                this.cookieService.set('token',JSON.stringify(action.payload.token));
+                this.cookieService.set('user',JSON.stringify(user),10);
+                this.cookieService.set('token',JSON.stringify(action.payload.token),10);
                 this.router.navigate(['my-teams']);
             })
         ),
         { dispatch: false }
     );
-
-
 }

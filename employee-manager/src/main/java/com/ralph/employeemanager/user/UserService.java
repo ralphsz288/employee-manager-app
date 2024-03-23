@@ -65,6 +65,10 @@ public class UserService {
         return AuthenticationResponse.builder().token(jwtToken).userDto(dtoConversionService.convertEntityToUserDto(user)).build();
     }
 
+    public String getUserDataFromJWT(String authorizationHeader){
+        return jwtService.extractUsernameFromHeader(authorizationHeader);
+    }
+
     @Transactional
     public String confirmToken(String token) {
         ConfirmationToken confirmationToken = confirmationTokenRepository.findByToken(token).orElseThrow(()-> new IllegalStateException("token not found"));
