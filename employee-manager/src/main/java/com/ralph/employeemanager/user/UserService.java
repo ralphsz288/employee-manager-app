@@ -65,8 +65,10 @@ public class UserService {
         return AuthenticationResponse.builder().token(jwtToken).userDto(dtoConversionService.convertEntityToUserDto(user)).build();
     }
 
-    public String getUserDataFromJWT(String authorizationHeader){
-        return jwtService.extractUsernameFromHeader(authorizationHeader);
+    public UserDto getUserDataFromJWT(String authorizationHeader){
+        Optional<User> userOptional = repository.findByEmail(jwtService.extractUsernameFromHeader(authorizationHeader));
+        User user = userOptional.get();
+        return dtoConversionService.convertEntityToUserDto(user);
     }
 
     @Transactional

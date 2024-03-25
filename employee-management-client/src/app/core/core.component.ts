@@ -4,6 +4,7 @@ import { User } from '../auth/user.model';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
 import * as AuthActions from '..//auth/store/auth.actions';
+import { Subscription, map } from 'rxjs';
 
 @Component({
   selector: 'app-core',
@@ -11,8 +12,21 @@ import * as AuthActions from '..//auth/store/auth.actions';
   styleUrl: './core.component.css'
 })
 export class CoreComponent implements OnInit{
+  private userSub: Subscription;
   constructor(private store: Store<fromApp.AppState>){}
   ngOnInit(): void {
-    this.store.dispatch(AuthActions.autoLogin());
+    this.userSub = this.store.select('auth')
+    .pipe(
+      map(
+        state => {
+          return state.user
+        }
+      )
+    ).subscribe(user => {
+      if(user == null) {
+        this.store.dispatch(AuthActions.autoLogin());
+      }
+    });
+    
   }
 }

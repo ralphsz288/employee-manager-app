@@ -60,7 +60,6 @@ export const authReducer = createReducer(
         }
     }),
     on(authenticationFail, (state, action) => {
-        console.log(action);
         return {
             ...state,
             authError: action.payload.error,

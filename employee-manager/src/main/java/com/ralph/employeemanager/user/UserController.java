@@ -42,8 +42,8 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
     @GetMapping("/checkToken")
-    public ResponseEntity<?> checkToken(@RequestHeader("Authorization") String authorizationHeader){
-        String resp = userService.getUserDataFromJWT(authorizationHeader);
-        return ResponseEntity.status(HttpStatus.OK).body(Collections.singletonMap("name", resp));
+    public ResponseEntity<UserDto> checkToken(@RequestHeader("Authorization") String authorizationHeader){
+        UserDto user = userService.getUserDataFromJWT(authorizationHeader);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 }

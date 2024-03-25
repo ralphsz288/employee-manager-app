@@ -105,30 +105,42 @@ export class AuthEffects {
                     return EMPTY;
                 } else {
                     token = JSON.parse(token);
-                    token = 'Bearer ' + token;
                     const headers = new HttpHeaders({
-                        'Authorization': token,
+                        'Authorization': 'Bearer ' + token,
                         'Content-Type': 'application/json'
-                    });                    
+                    });
                     return this.http.get<any>(
                         environment.auth.checkTokenUrl,
                         {headers: headers}
                     ).pipe(
-                        tap((res) => {
-                            // res = JSON.stringify(res);
-                            var usr = this.cookieService.get('user');
+                        map((res) => {
+                            return AuthActions.loginSuccess(
+                                {
+                                    payload: {
+                                        token: token,
+                                        user: {
+                                            id: res.id,
+                                            firstName: res.firstname,
+                                            lastName: res.lastName,
+                                            email: res.email,
+                                            imageUrl: res.imageUrl,
+                                            role: res.role,
+                                            isEnabled: res.isEnabled,
+                                        }
+                                    }
+                                }
+                            )
                         }),
                         catchError((error) => {
-                            console.log(error);
                             this.cookieService.delete('user');
                             this.cookieService.delete('token');
                             this.router.navigate(['auth/login']);
-                            return of(null);
+                            return EMPTY;
                         })
                     )
                 }
             })
-        ),{ dispatch: false }
+        )
     );
 
     authLoginSuccess$ = createEffect(() =>
@@ -145,7 +157,7 @@ export class AuthEffects {
                 )
                 this.cookieService.set('user',JSON.stringify(user),10);
                 this.cookieService.set('token',JSON.stringify(action.payload.token),10);
-                this.router.navigate(['my-teams']);
+                this.router.navigate(['my-teams']);  
             })
         ),
         { dispatch: false }
