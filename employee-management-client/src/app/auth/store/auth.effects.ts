@@ -155,8 +155,8 @@ export class AuthEffects {
                     action.payload.user.imageUrl,
                     action.payload.user.role,
                 )
-                this.cookieService.set('user',JSON.stringify(user),10);
-                this.cookieService.set('token',JSON.stringify(action.payload.token),10);
+                this.cookieService.set('user',JSON.stringify(user),100);
+                this.cookieService.set('token',JSON.stringify(action.payload.token),100);
                 this.router.navigate(['my-teams']);  
             })
         ),
