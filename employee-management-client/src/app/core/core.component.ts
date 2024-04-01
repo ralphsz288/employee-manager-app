@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { User } from '../auth/user.model';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
-import * as AuthActions from '..//auth/store/auth.actions';
+import * as AuthActions from '../auth/store/auth.actions';
 import { Subscription, map } from 'rxjs';
 
 @Component({

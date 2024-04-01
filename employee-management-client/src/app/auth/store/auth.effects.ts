@@ -21,7 +21,7 @@ export class AuthEffects {
         private cookieService: CookieService
     ){}
 
-    authSignUp = createEffect(() => 
+    authSignUp$ = createEffect(() => 
         this.actions$.pipe(
             ofType(AuthActions.signUpStart),
             switchMap((data) => {
@@ -58,7 +58,7 @@ export class AuthEffects {
         )
     )
 
-    authLogin = createEffect(() =>
+    authLogin$ = createEffect(() =>
         this.actions$.pipe(
             ofType(AuthActions.loginStart),
             switchMap((data) => {
@@ -95,7 +95,7 @@ export class AuthEffects {
         )
     )
 
-    autoLogin = createEffect(() => 
+    autoLogin$ = createEffect(() => 
         this.actions$.pipe(
             ofType(AuthActions.autoLogin),
             switchMap((data) => {
@@ -155,8 +155,8 @@ export class AuthEffects {
                     action.payload.user.imageUrl,
                     action.payload.user.role,
                 )
-                this.cookieService.set('user',JSON.stringify(user),100);
-                this.cookieService.set('token',JSON.stringify(action.payload.token),100);
+                this.cookieService.set('user',JSON.stringify(user),100,'/');
+                this.cookieService.set('token',JSON.stringify(action.payload.token),100,'/');
                 this.router.navigate(['my-teams']);  
             })
         ),

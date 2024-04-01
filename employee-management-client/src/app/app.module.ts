@@ -15,6 +15,7 @@ import { AuthEffects } from './auth/store/auth.effects';
 import { StoreDevtools, StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AuthComponent } from './auth/auth.component';
 import { CoreModule } from './core/core.module';
+import { TeamsEffects } from './core/teams/store/teams.effects';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { CoreModule } from './core/core.module';
     FormsModule,
     StoreModule.forRoot(fromApp.appReducer),
     StoreDevtoolsModule.instrument({}),
-    EffectsModule.forRoot([AuthEffects]),
+    EffectsModule.forRoot([AuthEffects,TeamsEffects]),
   ],
   providers: [],
   bootstrap: [AppComponent]

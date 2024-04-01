@@ -1,17 +1,36 @@
-import { createReducer } from "@ngrx/store";
+import { createReducer, on } from "@ngrx/store";
 import { Member } from "../model/member.model";
 import { Team } from "../model/team.model";
+import { getTeamsStart, getTeamsSuccess } from "./teams.actions";
 
 export interface State {
     teams: Team[],
-    managedTeams: Team[]
+    managedTeams: Team[],
+    error: string | null,
+    loading: boolean
 }
 
 const initialState: State = {
     teams: [],
-    managedTeams: []
+    managedTeams: [],
+    error: null,
+    loading: false
 }
 
-const teamsReducer = createReducer(
+export const teamsReducer = createReducer(
     initialState,
+    on(getTeamsStart, (state, action) => {
+        return {
+            ...state,
+            authError: null,
+            loading: true
+        }
+    }),
+    on(getTeamsSuccess, (state, action) => {
+        return {
+            ...state,
+            loading: false,
+            teams: action.payload.teams
+        }
+    }),
 )

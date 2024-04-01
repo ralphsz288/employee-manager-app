@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("employee.management/team")
 @AllArgsConstructor
 public class TeamController {
