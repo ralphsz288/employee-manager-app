@@ -1,7 +1,10 @@
-<div class="w-[70%] mx-auto p-2 pt-16">
+<div *ngIf="isLoading" class="absolute inset-0 bg-gray-200 bg-opacity-75 flex justify-center items-center">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+<div *ngIf="!isLoading" class="w-[70%] mx-auto p-2 pt-16">
   <div class="flex flex-row justify-between mb-6 mt-12">
     <!-- <div></div> -->
-    <div class="text-lg rounded-md p-1">Team name</div>
+    <div *ngIf="teams"class="text-lg rounded-md p-1">{{teams[0].name}}</div>
     <div
       class="flex items-center rounded-lg focus-within:shadow-lg bg-white overflow-hidden"
     >

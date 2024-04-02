@@ -7,6 +7,7 @@ import com.ralph.employeemanager.service.DtoConversionService;
 import com.ralph.employeemanager.team.dto.AddUserDto;
 import com.ralph.employeemanager.team.dto.CreateTeamDto;
 import com.ralph.employeemanager.team.dto.RemoveUserDto;
+import com.ralph.employeemanager.team.dto.TeamDto;
 import com.ralph.employeemanager.user.Role;
 import com.ralph.employeemanager.user.User;
 import com.ralph.employeemanager.user.UserRepository;
@@ -30,11 +31,10 @@ public class TeamController {
     private final AuthorizationService authorizationService;
 
     @GetMapping("/getTeamsByMember")
-    public ResponseEntity<List<Team>> getTeams(
+    public ResponseEntity<List<TeamDto>> getTeams(
             @RequestParam String userId,
             @RequestHeader("Authorization") String authorizationHeader) {
-        authorizationService.checkPermission(authorizationHeader,userId);
-        List<Team> resp = this.repository.findByMembersContains(userId);
+        List<TeamDto> resp = teamService.getTeams(userId,authorizationHeader);
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
     @GetMapping("/getTeamsByOwner")

@@ -17,13 +17,13 @@ export class TeamsEffects {
         private actions$: Actions,
         private store: Store<fromApp.AppState>,
         private cookieService: CookieService,
-    ){}
+    ) { }
 
-    getTeams$ = createEffect(() => 
+    getTeams$ = createEffect(() =>
         this.actions$.pipe(
             ofType(TeamsActions.getTeamsStart),
             withLatestFrom(this.store.select('auth')),
-            switchMap(([_,authState]) => {
+            switchMap(([_, authState]) => {
                 let params = new HttpParams();
                 params = params.append('userId', authState.user.id);
                 const headers = new HttpHeaders({
@@ -32,14 +32,13 @@ export class TeamsEffects {
                 });
                 return this.http.get<any>(
                     environment.teams.getTeamsByMember,
-                    {   
+                    {
                         params: params,
-                        headers: headers 
+                        headers: headers
                     },
                 ).pipe(
                     map((res) => {
-                        console.log(res);
-                        return TeamsActions.getTeamsSuccess( 
+                        return TeamsActions.getTeamsSuccess(
                             {
                                 payload: {
                                     teams: res
@@ -51,7 +50,7 @@ export class TeamsEffects {
                         console.log(error);
                         // return of(AuthActions.authenticationFail({payload: error.error}))
                         return of(null)
-                    }) 
+                    })
                 )
             })
         )

@@ -1,5 +1,4 @@
 import { createReducer, on } from "@ngrx/store";
-import { Member } from "../model/member.model";
 import { Team } from "../model/team.model";
 import { getTeamsStart, getTeamsSuccess } from "./teams.actions";
 

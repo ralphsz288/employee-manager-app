@@ -20,11 +20,11 @@ export class LoginComponent implements OnInit {
   showError: boolean = false;
 
   error: string = null;
-  user:User = null;
+  user: User = null;
 
   private storeSub: Subscription;
-  
-  constructor(private store: Store<fromApp.AppState>,private route: ActivatedRoute) {}
+
+  constructor(private store: Store<fromApp.AppState>, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.storeSub = this.store.select('auth').subscribe(authState => {
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onSubmit(form: NgForm){
+  onSubmit(form: NgForm) {
     this.store.dispatch(AuthActions.loginStart(
       {
         payload: {

@@ -1,5 +1,4 @@
 import { User } from "../../../auth/user.model";
-import { Member } from "./member.model";
 
 export class Team {
     id: string;
@@ -11,7 +10,7 @@ export class Team {
         id: string,
         name: string,
         owner: User,
-        members: Member[],
+        members: User[],
     ) {
         this.id = id;
         this.name = name;

@@ -7,6 +7,7 @@ import com.ralph.employeemanager.service.DtoConversionService;
 import com.ralph.employeemanager.team.dto.AddUserDto;
 import com.ralph.employeemanager.team.dto.CreateTeamDto;
 import com.ralph.employeemanager.team.dto.RemoveUserDto;
+import com.ralph.employeemanager.team.dto.TeamDto;
 import com.ralph.employeemanager.user.User;
 import com.ralph.employeemanager.user.UserRepository;
 import lombok.AllArgsConstructor;
@@ -14,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +27,15 @@ public class TeamService {
     private final DtoConversionService dtoConversionService;
     private final AuthorizationService authorizationService;
 
+    public List <TeamDto> getTeams(String userId, String authorizationHeader){
+        authorizationService.checkPermission(authorizationHeader,userId);
+        List<Team> resp = this.repository.findByMembersContains(userId);
+        List<TeamDto> teamDto = new ArrayList<>();
+        for (Team team : resp) {
+            teamDto.add(dtoConversionService.convertEntityToTeamDto(team));
+        }
+        return teamDto;
+    }
     public Team createTeam(CreateTeamDto createTeamDto) {
         Team team = repository.findByNameAndOwner(createTeamDto.getName(), createTeamDto.getOwner());
         if (team != null) {
