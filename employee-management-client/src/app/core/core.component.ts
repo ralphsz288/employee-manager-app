@@ -11,22 +11,10 @@ import { Subscription, map } from 'rxjs';
   templateUrl: './core.component.html',
   styleUrl: './core.component.css'
 })
-export class CoreComponent implements OnInit{
+export class CoreComponent implements OnInit {
   private userSub: Subscription;
-  constructor(private store: Store<fromApp.AppState>){}
+  constructor(private store: Store<fromApp.AppState>) { }
   ngOnInit(): void {
-    this.userSub = this.store.select('auth')
-    .pipe(
-      map(
-        state => {
-          return state.user
-        }
-      )
-    ).subscribe(user => {
-      if(user == null) {
-        this.store.dispatch(AuthActions.autoLogin());
-      }
-    });
-    
+
   }
 }

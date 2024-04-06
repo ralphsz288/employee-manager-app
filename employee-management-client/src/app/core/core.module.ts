@@ -10,12 +10,14 @@ import { AppRoutingModule } from "../app-routing-module";
 import { RouterModule } from "@angular/router";
 import { CoreComponent } from "./core.component";
 import { HeaderComponent } from "../shared/header/header.component";
+import { EntryPointComponent } from './entry-point/entry-point.component';
 
 @NgModule({
     declarations: [
         MyTeamsComponent,
         ManagedTeamsComponent,
-        CoreComponent
+        CoreComponent,
+        EntryPointComponent
     ],
     imports: [
         CoreRoutingModule,

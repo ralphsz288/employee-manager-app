@@ -4,8 +4,8 @@ import * as fromApp from '../../store/app.reducer';
 import * as AuthActions from '../store/auth.actions'
 import { Store } from "@ngrx/store";
 import { Router } from "@angular/router";
-import { EMPTY, catchError, map, of, switchMap, tap } from "rxjs";
-import {environment} from '../../../environments/environment';
+import { EMPTY, catchError, from, map, of, switchMap, tap } from "rxjs";
+import { environment } from '../../../environments/environment';
 import { Injectable } from "@angular/core";
 import { CookieService } from "ngx-cookie-service";
 import { User } from "../user.model";
@@ -19,9 +19,9 @@ export class AuthEffects {
         private store: Store<fromApp.AppState>,
         private router: Router,
         private cookieService: CookieService
-    ){}
+    ) { }
 
-    authSignUp$ = createEffect(() => 
+    authSignUp$ = createEffect(() =>
         this.actions$.pipe(
             ofType(AuthActions.signUpStart),
             switchMap((data) => {
@@ -51,8 +51,8 @@ export class AuthEffects {
                         )
                     }),
                     catchError((error) => {
-                        return of(AuthActions.authenticationFail({payload: error.error}))
-                    }) 
+                        return of(AuthActions.authenticationFail({ payload: error.error }))
+                    })
                 )
             })
         )
@@ -75,7 +75,7 @@ export class AuthEffects {
                                 payload: {
                                     token: res.token,
                                     user: {
-                                        id: res.id,
+                                        id: res.userDto.id,
                                         firstName: res.userDto.firstname,
                                         lastName: res.userDto.lastName,
                                         email: res.userDto.email,
@@ -88,14 +88,14 @@ export class AuthEffects {
                         )
                     }),
                     catchError((error) => {
-                        return of(AuthActions.authenticationFail({payload: error.error}))
-                    }) 
+                        return of(AuthActions.authenticationFail({ payload: error.error }))
+                    })
                 )
-            }) 
+            })
         )
-    )
+    );
 
-    autoLogin$ = createEffect(() => 
+    autoLogin$ = createEffect(() =>
         this.actions$.pipe(
             ofType(AuthActions.autoLogin),
             switchMap((data) => {
@@ -111,7 +111,7 @@ export class AuthEffects {
                     });
                     return this.http.get<any>(
                         environment.auth.checkTokenUrl,
-                        {headers: headers}
+                        { headers: headers }
                     ).pipe(
                         map((res) => {
                             return AuthActions.loginSuccess(
@@ -146,8 +146,8 @@ export class AuthEffects {
     authLoginSuccess$ = createEffect(() =>
         this.actions$.pipe(
             ofType(AuthActions.loginSuccess),
-            tap((action) => {
-                const user = new User (
+            map((action) => {
+                const user = new User(
                     action.payload.user.id,
                     action.payload.user.firstName,
                     action.payload.user.lastName,
@@ -155,9 +155,18 @@ export class AuthEffects {
                     action.payload.user.imageUrl,
                     action.payload.user.role,
                 )
-                this.cookieService.set('user',JSON.stringify(user),100,'/');
-                this.cookieService.set('token',JSON.stringify(action.payload.token),100,'/');
-                this.router.navigate(['my-teams']);  
+                this.cookieService.set('user', JSON.stringify(user), 100, '/');
+                this.cookieService.set('token', JSON.stringify(action.payload.token), 100, '/');
+                return AuthActions.navigateAfterLoginSuccess();
+            })
+        ),
+    );
+
+    navigateAfterLoginSuccess$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AuthActions.navigateAfterLoginSuccess),
+            tap((action) => {
+                this.router.navigate(['my-teams']);
             })
         ),
         { dispatch: false }

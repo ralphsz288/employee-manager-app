@@ -6,5 +6,5 @@ export class User {
         public email: string,
         public imageUrl: string,
         public role: string,
-    ){}
+    ) { }
 }
