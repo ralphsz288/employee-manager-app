@@ -4,13 +4,22 @@ import { CoreComponent } from "./core.component";
 import { ManagedTeamsComponent } from "./teams/managed-teams/managed-teams.component";
 import { NgModule } from "@angular/core";
 import { EntryPointComponent } from "./entry-point/entry-point.component";
+import { canActivateCoreGuard } from "./core.guard";
 
 const appRoutes: Routes = [
     {
         path: '', component: CoreComponent, children: [
             { path: '', component: EntryPointComponent },
-            { path: 'my-teams', component: MyTeamsComponent },
-            { path: 'managed-teams', component: ManagedTeamsComponent }
+            {
+                path: 'my-teams',
+                component: MyTeamsComponent,
+                canActivate: [canActivateCoreGuard],
+            },
+            {
+                path: 'managed-teams',
+                component: ManagedTeamsComponent,
+                canActivate: [canActivateCoreGuard],
+            }
         ]
     }
 ]

@@ -11,7 +11,7 @@ import { User } from '../../../auth/user.model';
   templateUrl: './my-teams.component.html',
   styleUrl: './my-teams.component.css'
 })
-export class MyTeamsComponent implements AfterViewInit {
+export class MyTeamsComponent implements OnInit {
   private userStoreSub: Subscription;
   private storeSub: Subscription;
   isLoading: boolean = true;
@@ -20,9 +20,10 @@ export class MyTeamsComponent implements AfterViewInit {
   teams: Team[];
   members: User[];
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.store.dispatch(TeamsActions.getTeamsStart());
     this.storeSub = this.store.select('teams').subscribe(teamsState => {
+      console.log('teams selected');
       this.isLoading = teamsState.loading;
       this.error = teamsState.error;
       if (this.error) {

@@ -7,16 +7,16 @@ const appRoutes: Routes = [
     // {path: '', redirectTo: '/auth', pathMatch: 'full'},
     {
         path: '',
-        loadChildren:() => import('./core/core.module').then(m => m.CoreModule)
+        loadChildren: () => import('./core/core.module').then(m => m.CoreModule)
     },
     {
         path: 'auth',
-        loadChildren:() => import('./auth/auth.module').then(m => m.AuthModule)
+        loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
     },
-    {path: '**', component: MyTeamsComponent}
+    { path: '**', component: MyTeamsComponent }
 ]
 @NgModule({
     imports: [RouterModule.forRoot(appRoutes)],
     exports: [RouterModule]
 })
-export class AppRoutingModule{}
+export class AppRoutingModule { }
