@@ -23,7 +23,6 @@ export class MyTeamsComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(TeamsActions.getTeamsStart());
     this.storeSub = this.store.select('teams').subscribe(teamsState => {
-      console.log('teams selected');
       this.isLoading = teamsState.loading;
       this.error = teamsState.error;
       if (this.error) {

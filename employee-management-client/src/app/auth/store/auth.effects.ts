@@ -98,7 +98,7 @@ export class AuthEffects {
     autoLogin$ = createEffect(() =>
         this.actions$.pipe(
             ofType(AuthActions.autoLogin),
-            switchMap((data) => {
+            switchMap(() => {
                 var token = this.cookieService.get('token');
                 if (!token) {
                     this.router.navigate(['auth/login']);
@@ -165,8 +165,69 @@ export class AuthEffects {
     navigateAfterLoginSuccess$ = createEffect(() =>
         this.actions$.pipe(
             ofType(AuthActions.navigateAfterLoginSuccess),
-            tap((action) => {
+            tap(() => {
                 this.router.navigate(['my-teams']);
+            })
+        ),
+        { dispatch: false }
+    );
+
+    activateGuardLogin$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AuthActions.activateGuardLogin),
+            switchMap(() => {
+                var token = this.cookieService.get('token');
+                token = JSON.parse(token);
+                const headers = new HttpHeaders({
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                });
+                return this.http.get<any>(
+                    environment.auth.checkTokenUrl,
+                    { headers: headers }
+                ).pipe(
+                    map((res) => {
+                        return AuthActions.activateGuardLoginSuccess(
+                            {
+                                payload: {
+                                    token: token,
+                                    user: {
+                                        id: res.id,
+                                        firstName: res.firstname,
+                                        lastName: res.lastName,
+                                        email: res.email,
+                                        imageUrl: res.imageUrl,
+                                        role: res.role,
+                                        isEnabled: res.isEnabled,
+                                    }
+                                }
+                            }
+                        )
+                    }),
+                    catchError((error) => {
+                        this.cookieService.delete('user');
+                        this.cookieService.delete('token');
+                        return EMPTY;
+                    })
+                )
+            })
+        )
+    );
+
+    activateGuardLoginSuccess$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(AuthActions.activateGuardLoginSuccess),
+            map((action) => {
+                const user = new User(
+                    action.payload.user.id,
+                    action.payload.user.firstName,
+                    action.payload.user.lastName,
+                    action.payload.user.email,
+                    action.payload.user.imageUrl,
+                    action.payload.user.role,
+                )
+                this.cookieService.set('user', JSON.stringify(user), 100, '/');
+                this.cookieService.set('token', JSON.stringify(action.payload.token), 100, '/');
             })
         ),
         { dispatch: false }

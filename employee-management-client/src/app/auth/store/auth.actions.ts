@@ -67,6 +67,24 @@ export const activateGuardLogin = createAction(
     '[Auth] Activate Guard Login',
 )
 
+export const activateGuardLoginSuccess = createAction(
+    '[Auth] Activate Guard Login Success',
+    props<{
+        payload: {
+            token: string,
+            user: {
+                id: string,
+                firstName: string,
+                lastName: string,
+                email: string,
+                imageUrl: string,
+                role: string,
+                isEnabled: boolean
+            }
+        }
+    }>()
+)
+
 export const authenticationFail = createAction(
     '[Auth] Error',
     props<{

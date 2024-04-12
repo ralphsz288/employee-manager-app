@@ -1,12 +1,13 @@
 import { createReducer, on } from "@ngrx/store";
 import { User } from "../user.model";
-import { authenticationFail, loginStart, loginSuccess, signUpStart, signUpSuccess } from "./auth.actions";
+import { activateGuardLogin, activateGuardLoginSuccess, authenticationFail, loginStart, loginSuccess, signUpStart, signUpSuccess } from "./auth.actions";
 
 export interface State {
     user: User | null;
     token: string | null;
     authError: string | null;
     signUpSent: boolean;
+    guardLoginSent: boolean;
     loading: boolean;
 }
 
@@ -15,6 +16,7 @@ const initialState: State = {
     token: null,
     authError: null,
     signUpSent: false,
+    guardLoginSent: false,
     loading: false
 };
 
@@ -43,7 +45,7 @@ export const authReducer = createReducer(
         }
     }),
     on(loginSuccess, (state, action) => {
-        const user = new User (
+        const user = new User(
             action.payload.user.id,
             action.payload.user.firstName,
             action.payload.user.lastName,
@@ -59,6 +61,26 @@ export const authReducer = createReducer(
             token: action.payload.token
         }
     }),
+
+    on(activateGuardLoginSuccess, (state, action) => {
+        const user = new User(
+            action.payload.user.id,
+            action.payload.user.firstName,
+            action.payload.user.lastName,
+            action.payload.user.email,
+            action.payload.user.imageUrl,
+            action.payload.user.role,
+        )
+        return {
+            ...state,
+            authError: null,
+            user: user,
+            loading: false,
+            token: action.payload.token,
+            guardLoginSent: true
+        }
+    }),
+
     on(authenticationFail, (state, action) => {
         return {
             ...state,
