@@ -15,13 +15,11 @@ export const canActivateCoreGuard: CanActivateFn = (route: ActivatedRouteSnapsho
         take(1),
         switchMap(
             state => {
-                console.log(state.user);
                 if (!!state.user) {
                     return of(true);
                 }
                 const token = cookieService.get('token');
                 if (!!token) {
-                    console.log(token);
                     store.dispatch(AuthActions.activateGuardLogin());
                     return store.select('auth').pipe(
                         filter(updatedAuthState => !!updatedAuthState.user || updatedAuthState.guardLoginSent),
