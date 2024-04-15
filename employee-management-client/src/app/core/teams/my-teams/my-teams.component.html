@@ -2,14 +2,17 @@
   <app-loading-spinner></app-loading-spinner>
 </div>
 <div *ngIf="!isLoading" class="w-[70%] mx-auto p-2 pt-16">
-  <div class="flex flex-row justify-between mb-6 mt-12">
-    <div class="flex flex-row space-x-8">
+  <div class="flex flex-row justify-between mb-6 mt-12 w-full">
+    <div class="flex flex-row space-x-8 pb-2 w-4/6 overflow-auto items-center">
       <div *ngFor="let team of teams; let i = index">
-        <span *ngIf="teams"class="bg-gradient-to-r from-orange-400 to-red-400 text-xl rounded-md px-4">{{teams[i].name}}</span>
+        <button>
+          <span onclick="null" *ngIf="teams"class="bg-gradient-to-r from-orange-400 to-red-400 text-xl rounded-md px-4 flex items-center hover:shadow-xl hover:from-orange-300 hover:to-red-300">{{teams[i].name}}</span>
+        </button>
+        
       </div>
     </div>
-    
-    <div class="flex items-center rounded-lg focus-within:shadow-lg bg-white overflow-hidden">
+    <div class="p-2"></div>
+    <div class="flex items-center rounded-lg focus-within:shadow-lg bg-white overflow-hidden h-1/2">
       <div class="grid place-items-center h-full p-2 text-gray-400">
         <svg
           xmlns="http://www.w3.org/2000/svg"

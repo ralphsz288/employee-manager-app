@@ -1,0 +1,13 @@
+  ::-webkit-scrollbar {
+    height: 10px; /* Adjust the height of the scrollbar */
+    background: #f1f1f1; /* Background color of the scrollbar */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background:lightgray; /* Color of the scrollbar thumb */
+    border-radius: 5px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: gray; /* Color of the scrollbar thumb when hovered */
+  }
