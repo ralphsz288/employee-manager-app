@@ -4,7 +4,8 @@ COPY package*.json ./
 RUN npm install
 RUN npx ngcc --properties es2023 browser module main --first-only  --create-ivy-entry-points
 COPY . .
-RUN npm run buildDev
+ARG BUILD_TYPE=development
+RUN if [ "$BUILD_TYPE" = "production" ] ; then npm run build; else npm run buildDev; fi
 
 FROM nginx:stable
 COPY default.conf /etc/nginx/conf.d

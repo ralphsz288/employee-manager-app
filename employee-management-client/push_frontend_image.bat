@@ -1,0 +1,1 @@
+docker push ralph28/employee-management-client:latest
