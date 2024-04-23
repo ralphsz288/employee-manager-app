@@ -9,7 +9,7 @@ import { canActivateCoreGuard } from "./core.guard";
 const appRoutes: Routes = [
     {
         path: '', component: CoreComponent, children: [
-            { path: '', component: EntryPointComponent },
+            { path: '', redirectTo: 'my-teams',pathMatch:'full'},
             {
                 path: 'my-teams',
                 component: MyTeamsComponent,

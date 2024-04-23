@@ -11,10 +11,5 @@ import { Subscription, map } from 'rxjs';
   templateUrl: './core.component.html',
   styleUrl: './core.component.css'
 })
-export class CoreComponent implements OnInit {
-  private userSub: Subscription;
-  constructor(private store: Store<fromApp.AppState>) { }
-  ngOnInit(): void {
-
-  }
+export class CoreComponent{
 }

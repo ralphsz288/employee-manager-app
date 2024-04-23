@@ -100,8 +100,6 @@ export class AuthEffects {
             ofType(AuthActions.autoLogin),
             switchMap(() => {
                 var token = this.cookieService.get('token');
-                console.log(token);
-                console.log("tokenn");
                 if (!token) {
                     this.router.navigate(['auth/login']);
                     return EMPTY;
@@ -116,7 +114,6 @@ export class AuthEffects {
                         { headers: headers }
                     ).pipe(
                         map((res) => {
-                            console.log(res);
                             return AuthActions.loginSuccess(
                                 {
                                     payload: {
