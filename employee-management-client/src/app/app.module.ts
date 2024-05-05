@@ -16,6 +16,7 @@ import { StoreDevtools, StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AuthComponent } from './auth/auth.component';
 import { CoreModule } from './core/core.module';
 import { TeamsEffects } from './core/teams/store/teams.effects';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,9 @@ import { TeamsEffects } from './core/teams/store/teams.effects';
     StoreDevtoolsModule.instrument({}),
     EffectsModule.forRoot([AuthEffects,TeamsEffects]),
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
