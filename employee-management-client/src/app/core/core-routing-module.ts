@@ -3,7 +3,6 @@ import { MyTeamsComponent } from "./teams/my-teams/my-teams.component";
 import { CoreComponent } from "./core.component";
 import { ManagedTeamsComponent } from "./teams/managed-teams/managed-teams.component";
 import { NgModule } from "@angular/core";
-import { EntryPointComponent } from "./entry-point/entry-point.component";
 import { canActivateCoreGuard } from "./core.guard";
 
 const appRoutes: Routes = [

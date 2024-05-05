@@ -13,3 +13,16 @@ export const getTeamsSuccess = createAction(
         }
     }>()
 )
+
+export const getManagedTeamsStart = createAction(
+    '[Teams] Get teams start',
+)
+
+export const getManagedTeamsSuccess = createAction(
+    '[Teams] Get teams success',
+    props<{
+        payload: {
+            managedTeams: Team[]
+        }
+    }>()
+)

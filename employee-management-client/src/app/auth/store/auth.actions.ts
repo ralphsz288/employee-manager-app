@@ -59,10 +59,6 @@ export const navigateAfterLoginSuccess = createAction(
     '[Auth] Navigate after Login success',
 )
 
-export const autoLogin = createAction(
-    '[Auth] Auto login',
-)
-
 export const activateGuardLogin = createAction(
     '[Auth] Activate Guard Login',
 )

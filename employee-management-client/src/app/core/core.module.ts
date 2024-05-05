@@ -6,18 +6,14 @@ import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { SharedModule } from "../shared/shared.module";
 import { CoreRoutingModule } from "./core-routing-module";
-import { AppRoutingModule } from "../app-routing-module";
 import { RouterModule } from "@angular/router";
 import { CoreComponent } from "./core.component";
-import { HeaderComponent } from "../shared/header/header.component";
-import { EntryPointComponent } from './entry-point/entry-point.component';
 
 @NgModule({
     declarations: [
         MyTeamsComponent,
         ManagedTeamsComponent,
         CoreComponent,
-        EntryPointComponent
     ],
     imports: [
         CoreRoutingModule,

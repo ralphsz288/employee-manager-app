@@ -38,11 +38,11 @@ public class TeamController {
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
     @GetMapping("/getTeamsByOwner")
-    public ResponseEntity<List<Team>> getManagedTeams(
+    public ResponseEntity<List<TeamDto>> getManagedTeams(
         @RequestParam String userId,
         @RequestHeader("Authorization") String authorizationHeader) {
             authorizationService.checkPermission(authorizationHeader,userId);
-            List<Team> resp = this.repository.findByOwner(userId);
+            List<TeamDto> resp = teamService.getTeamsByOwner(userId,authorizationHeader);
             return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
     @PostMapping("/create")

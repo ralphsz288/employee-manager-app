@@ -55,4 +55,41 @@ export class TeamsEffects {
             })
         )
     );
+
+    getManagedTeams$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(TeamsActions.getManagedTeamsStart),
+            withLatestFrom(this.store.select('auth')),
+            switchMap(([_, authState]) => {
+                let params = new HttpParams();
+                params = params.append('userId', authState.user.id);
+                const headers = new HttpHeaders({
+                    'Authorization': 'Bearer ' + authState.token,
+                    'Content-Type': 'application/json'
+                });
+                return this.http.get<any>(
+                    environment.teams.getTeamsByOwner,
+                    {
+                        params: params,
+                        headers: headers
+                    },
+                ).pipe(
+                    map((res) => {
+                        return TeamsActions.getManagedTeamsSuccess(
+                            {
+                                payload: {
+                                    managedTeams: res
+                                }
+                            }
+                        )
+                    }), 
+                    catchError((error) => {
+                        console.log(error);
+                        // return of(AuthActions.authenticationFail({payload: error.error}))
+                        return of(null)
+                    })
+                )
+            })
+        )
+    );
 }

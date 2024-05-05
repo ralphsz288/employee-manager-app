@@ -36,6 +36,16 @@ public class TeamService {
         }
         return teamDto;
     }
+
+    public List <TeamDto> getTeamsByOwner(String userId, String authorizationHeader){
+        authorizationService.checkPermission(authorizationHeader,userId);
+        List<Team> resp = this.repository.findByOwner(userId);
+        List<TeamDto> teamDto = new ArrayList<>();
+        for (Team team : resp) {
+            teamDto.add(dtoConversionService.convertEntityToTeamDto(team));
+        }
+        return teamDto;
+    }
     public Team createTeam(CreateTeamDto createTeamDto) {
         Team team = repository.findByNameAndOwner(createTeamDto.getName(), createTeamDto.getOwner());
         if (team != null) {

@@ -95,54 +95,6 @@ export class AuthEffects {
         )
     );
 
-    autoLogin$ = createEffect(() =>
-        this.actions$.pipe(
-            ofType(AuthActions.autoLogin),
-            switchMap(() => {
-                var token = this.cookieService.get('token');
-                if (!token) {
-                    this.router.navigate(['auth/login']);
-                    return EMPTY;
-                } else {
-                    token = JSON.parse(token);
-                    const headers = new HttpHeaders({
-                        'Authorization': 'Bearer ' + token,
-                        'Content-Type': 'application/json'
-                    });
-                    return this.http.get<any>(
-                        environment.auth.checkTokenUrl,
-                        { headers: headers }
-                    ).pipe(
-                        map((res) => {
-                            return AuthActions.loginSuccess(
-                                {
-                                    payload: {
-                                        token: token,
-                                        user: {
-                                            id: res.id,
-                                            firstName: res.firstname,
-                                            lastName: res.lastName,
-                                            email: res.email,
-                                            imageUrl: res.imageUrl,
-                                            role: res.role,
-                                            isEnabled: res.isEnabled,
-                                        }
-                                    }
-                                }
-                            )
-                        }),
-                        catchError((error) => {
-                            this.cookieService.delete('user');
-                            this.cookieService.delete('token');
-                            this.router.navigate(['auth/login']);
-                            return EMPTY;
-                        })
-                    )
-                }
-            })
-        )
-    );
-
     authLoginSuccess$ = createEffect(() =>
         this.actions$.pipe(
             ofType(AuthActions.loginSuccess),

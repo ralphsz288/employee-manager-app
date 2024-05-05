@@ -19,7 +19,8 @@ export class MyTeamsComponent implements OnInit {
   showError: boolean = false;
   teams: Team[];
   members: User[];
-  selectedTeamIndex:number = 0;
+
+  constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit(): void {
     this.store.dispatch(TeamsActions.getTeamsStart());
@@ -29,9 +30,8 @@ export class MyTeamsComponent implements OnInit {
       if (this.error) {
         this.showError = true;
       }
-      if (teamsState.teams.length > 0) {
+      if (teamsState.teams!! && teamsState.teams.length > 0) {
         this.teams = [...teamsState.teams];
-        this.members = this.teams[this.selectedTeamIndex].members;
         // this.teams = [
         //   new Team('1','team1',new User('a','b','c','d',null,'rol'),[]),
         //   new Team('1','team2',new User('a','b','c','d',null,'rol'),[]),
@@ -49,11 +49,8 @@ export class MyTeamsComponent implements OnInit {
       }
     });
   }
-  constructor(private store: Store<fromApp.AppState>) { }
 
   onSelectTeam(index:number) {
     [this.teams[0], this.teams[index]] = [this.teams[index], this.teams[0]];
-    this.selectedTeamIndex = index;
-    this.members = this.teams[this.selectedTeamIndex].members;  
   }
 }
