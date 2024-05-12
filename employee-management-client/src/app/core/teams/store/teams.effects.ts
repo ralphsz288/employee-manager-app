@@ -92,4 +92,50 @@ export class TeamsEffects {
             })
         )
     );
+
+    addTeam$ = createEffect(() => 
+        this.actions$.pipe(
+            ofType(TeamsActions.addTeam),
+            withLatestFrom(this.store.select('auth')),
+            switchMap(([data,authState]) => {
+                const headers = new HttpHeaders({
+                    'Authorization': 'Bearer ' + authState.token,
+                    'Content-Type': 'application/json'
+                });
+                const body = {
+                    "name" : data.payload.name,
+                    "owner" : authState.user.id
+                }
+                return this.http.post<any>(
+                    environment.teams.createTeam,
+                    body,
+                    {
+                        headers: headers
+                    },
+                ).pipe(
+                    map((res) => {
+                        const team: Team = new Team(
+                            res.id,
+                            data.payload.name,
+                            authState.user,
+                            []
+                        );
+                        console.log(res);
+                        return TeamsActions.addTeamSuccess(
+                            {
+                                payload: {
+                                    team: team
+                                }
+                            }
+                        )
+                    }), 
+                    catchError((error) => {
+                        console.log(error);
+                        //return of(AuthActions.authenticationFail({payload: error.error}))
+                        return of(null)
+                    })
+                )
+            })
+        )
+    );
 }

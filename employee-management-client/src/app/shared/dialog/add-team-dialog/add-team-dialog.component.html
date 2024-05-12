@@ -1,0 +1,10 @@
+<div class="p-6">
+    <div> 
+        <label class="text-xl self-center">Team name:</label> 
+        <input class="font-roboto h-full w-full outline-none bg-gray-50 border border-blue-400 text-black rounded-lg block pl-1 p-0.5" matInput [(ngModel)]="teamName">
+        <div class="flex justify-between space-x-4 pt-2"> 
+            <button class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 text-xs rounded-full" (click)="onNoClick()">Cancel</button> 
+            <button class="bg-green-500 hover:bg-green-700 text-white py-2 px-6 text-xs rounded-full" (click)="onAddTeam()" cdkFocusInitial>Add</button> 
+        </div>  
+    </div>
+</div>
