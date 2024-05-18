@@ -12,6 +12,8 @@ import com.ralph.employeemanager.user.dto.LoginUserDto;
 import com.ralph.employeemanager.user.dto.RegisterResponse;
 import com.ralph.employeemanager.user.dto.UserDto;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,6 +34,8 @@ public class UserService {
     private final ConfirmationTokenService confirmationTokenService;
     private final AuthenticationManager authenticationManager;
     private final DtoConversionService dtoConversionService;
+    @Autowired
+    private Environment env;
 
     public RegisterResponse register (UserDto userDto) {
         RegisterResponse registerResponse = new RegisterResponse();
@@ -44,7 +48,7 @@ public class UserService {
 
             ConfirmationToken confirmationToken = generateConfirmationToken(user.getId());
             confirmationTokenService.saveConfirmationToken(confirmationToken);
-            String link = "http://localhost:8080/employee.management/user/confirm?token=" + confirmationToken.getToken();
+            String link = "http://" + env.getProperty("spring.host") +":8080/employee.management/user/confirm?token=" + confirmationToken.getToken();
             emailService.send(user.getEmail(),buildEmail(userDto.getFirstName(), link));
             registerResponse.setUserDto(dtoConversionService.convertEntityToUserDto(user));
             return registerResponse;

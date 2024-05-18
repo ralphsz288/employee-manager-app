@@ -120,14 +120,13 @@ export class TeamsEffects {
                             authState.user,
                             []
                         );
-                        console.log(res);
                         return TeamsActions.addTeamSuccess(
                             {
                                 payload: {
                                     team: team
                                 }
                             }
-                        )
+                        );
                     }), 
                     catchError((error) => {
                         console.log(error);
