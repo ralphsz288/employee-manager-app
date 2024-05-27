@@ -10,6 +10,6 @@ import java.util.List;
 public class TeamDto {
     private String id;
     private String name;
-    private String owner;
+    private UserDto owner;
     private List<UserDto> members;
 }

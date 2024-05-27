@@ -50,4 +50,10 @@ public class GlobalExceptionHandler {
         Map<String, String> errorMap = Collections.singletonMap("error", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMap);
     }
+
+    @ExceptionHandler(UnsupportedOperationException.class)
+    public ResponseEntity<Map<String, String>> handleUnsupportedOperationError(UnsupportedOperationException ex) {
+        Map<String, String> errorMap = Collections.singletonMap("error", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMap);
+    }
 }

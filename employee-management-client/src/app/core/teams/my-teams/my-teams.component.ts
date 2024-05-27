@@ -18,7 +18,7 @@ export class MyTeamsComponent implements OnInit {
   error: string = null;
   showError: boolean = false;
   teams: Team[];
-  members: User[];
+  teamOwner: User;
 
   constructor(private store: Store<fromApp.AppState>) { }
 
@@ -32,6 +32,16 @@ export class MyTeamsComponent implements OnInit {
       }
       if (teamsState.teams!! && teamsState.teams.length > 0) {
         this.teams = [...teamsState.teams];
+        console.log(this.teams);
+        const owner = this.teams[0].owner;
+        this.teamOwner = new User(
+          owner.id,
+          owner.firstName,
+          owner.lastName,
+          owner.email,
+          owner.imageUrl,
+          owner.role
+        );
         // this.teams = [
         //   new Team('1','team1',new User('a','b','c','d',null,'rol'),[]),
         //   new Team('1','team2',new User('a','b','c','d',null,'rol'),[]),
@@ -52,5 +62,14 @@ export class MyTeamsComponent implements OnInit {
 
   onSelectTeam(index:number) {
     [this.teams[0], this.teams[index]] = [this.teams[index], this.teams[0]];
+    const owner = this.teams[0].owner;
+    this.teamOwner = new User(
+      owner.id,
+      owner.firstName,
+      owner.lastName,
+      owner.email,
+      owner.imageUrl,
+      owner.role
+    );
   }
 }

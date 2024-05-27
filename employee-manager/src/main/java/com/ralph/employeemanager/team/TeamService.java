@@ -70,6 +70,10 @@ public class TeamService {
             throw new NotFoundException("The selected user does not exist");
         }
 
+        if (addUserDto.getUserId().equals(teamOwner)) {
+           throw new UnsupportedOperationException("The selected user is the owner of the team");
+        }
+
         if(team.getMembers().contains(addUserDto.getUserId())) {
             throw new AlreadyExistsException("The user you selected is already part of this team");
         }

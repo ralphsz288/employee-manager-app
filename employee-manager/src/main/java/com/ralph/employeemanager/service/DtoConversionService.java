@@ -6,6 +6,7 @@ import com.ralph.employeemanager.team.dto.TeamDto;
 import com.ralph.employeemanager.user.User;
 import com.ralph.employeemanager.user.UserRepository;
 import com.ralph.employeemanager.user.dto.UserDto;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +16,10 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class DtoConversionService {
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     public User convertUserDtoToEntity(UserDto userDto) {
         User user = new User();
         user.setFirstName(userDto.getFirstName());
@@ -55,12 +57,14 @@ public class DtoConversionService {
         TeamDto teamDto = new TeamDto();
         teamDto.setId(team.getId());
         teamDto.setName(team.getName());
-        teamDto.setOwner(team.getOwner());
+        Optional<User> user = userRepository.findById(team.getOwner());
+        UserDto owner = convertEntityToUserDto(user.get());
+        teamDto.setOwner(owner);
 
         List<UserDto> members = new ArrayList<>();
         for(String id : team.getMembers()){
-            Optional<User> user = userRepository.findById(id);
-            user.ifPresent(value -> members.add(convertEntityToUserDto(value)));
+            Optional<User> usr = userRepository.findById(id);
+            usr.ifPresent(value -> members.add(convertEntityToUserDto(value)));
         }
         teamDto.setMembers(members);
         return teamDto;

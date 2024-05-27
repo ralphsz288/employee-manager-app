@@ -6,6 +6,7 @@ import { Team } from '../model/team.model';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTeamDialogComponent } from '../../../shared/dialog/add-team-dialog/add-team-dialog.component';
+import { User } from '../../../auth/user.model';
  
 @Component({
   selector: 'app-managed-teams',
@@ -15,6 +16,7 @@ import { AddTeamDialogComponent } from '../../../shared/dialog/add-team-dialog/a
 export class ManagedTeamsComponent implements AfterViewInit {
   isLoading: boolean = true;
   managedTeams: Team[];
+  teamOwner: User;
   private storeSub: Subscription;
   error: string = null;
   showError: boolean = false;
@@ -31,6 +33,15 @@ export class ManagedTeamsComponent implements AfterViewInit {
       }
       if (teamsState.managedTeams!! && teamsState.managedTeams.length > 0) {
         this.managedTeams = [...teamsState.managedTeams];
+        const owner = this.managedTeams[0].owner;
+        this.teamOwner = new User(
+          owner.id,
+          owner.firstName,
+          owner.lastName,
+          owner.email,
+          owner.imageUrl,
+          owner.role
+        );
       }
     });
   }
@@ -43,5 +54,9 @@ export class ManagedTeamsComponent implements AfterViewInit {
         data: "right click"
       }
     );
+  }
+
+  onSelectTeam(index:number) {
+    [this.managedTeams[0], this.managedTeams[index]] = [this.managedTeams[index], this.managedTeams[0]];
   }
 }

@@ -8,6 +8,7 @@ import { SharedModule } from "../shared/shared.module";
 import { CoreRoutingModule } from "./core-routing-module";
 import { RouterModule } from "@angular/router";
 import { CoreComponent } from "./core.component";
+import { ProfileCardComponent } from './components/profile-card/profile-card.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { CoreComponent } from "./core.component";
         MyTeamsComponent,
         ManagedTeamsComponent,
         CoreComponent,
+        ProfileCardComponent,
     ],
     imports: [
         CoreRoutingModule,
