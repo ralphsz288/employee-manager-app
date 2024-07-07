@@ -7,6 +7,6 @@ import lombok.Data;
 public class AddUserDto {
     @NotEmpty(message = "TeamId is required")
     private String teamId;
-    @NotEmpty(message = "UserId is required")
-    private String userId;
+    @NotEmpty(message = "Email is required")
+    private String email;
 }

@@ -32,7 +32,6 @@ export class MyTeamsComponent implements OnInit {
       }
       if (teamsState.teams!! && teamsState.teams.length > 0) {
         this.teams = [...teamsState.teams];
-        console.log(this.teams);
         const owner = this.teams[0].owner;
         this.teamOwner = new User(
           owner.id,

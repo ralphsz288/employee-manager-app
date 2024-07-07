@@ -1,19 +1,21 @@
 import { createReducer, on } from "@ngrx/store";
 import { Team } from "../model/team.model";
-import { addTeam, addTeamSuccess, getManagedTeamsStart, getManagedTeamsSuccess, getTeamsStart, getTeamsSuccess } from "./teams.actions";
+import { addMemberSuccess, addTeam, addTeamSuccess, getManagedTeamsStart, getManagedTeamsSuccess, getTeamsStart, getTeamsSuccess, requestError } from "./teams.actions";
 
 export interface State {
     teams: Team[],
     managedTeams: Team[],
     error: string | null,
-    loading: boolean
+    loading: boolean,
+    responseMessage: string | null,
 }
 
 const initialState: State = {
     teams: [],
     managedTeams: [],
     error: null,
-    loading: false
+    loading: false,
+    responseMessage: null
 }
 
 export const teamsReducer = createReducer(
@@ -53,6 +55,7 @@ export const teamsReducer = createReducer(
             error: null
         }
     }),
+
     on(addTeamSuccess, (state, action) => {
         return {
             ...state,
@@ -61,4 +64,21 @@ export const teamsReducer = createReducer(
             managedTeams: [...state.managedTeams, action.payload.team]
         }
     }),
+
+    on(requestError, (state, action) => {
+        return {
+            ...state,
+            error: action.payload.error,
+            loading: false,
+        }
+    }),
+
+    on(addMemberSuccess, (state, action) => {
+        return {
+            ...state,
+            error: null,
+            loading: false,
+            responseMessage: action.payload.responseMessage,
+        }
+    })
 )

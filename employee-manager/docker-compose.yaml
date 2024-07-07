@@ -41,12 +41,6 @@ services:
 #     ports:
 #       - "80:80"
 #     depends_on:
-#       - employee-management-serveremployee-management-client:
-#     image: ralph28/employee-management-client:latest
-#     restart: always
-#     ports:
-#       - "80:80"
-#     depends_on:
 #       - employee-management-server
 
 volumes:

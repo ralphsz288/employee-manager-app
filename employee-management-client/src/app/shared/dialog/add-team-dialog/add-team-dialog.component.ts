@@ -15,7 +15,7 @@ export class AddTeamDialogComponent {
   constructor(
     private store: Store<fromApp.AppState>,
     public dialogRef: MatDialogRef<AddTeamDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    // @Inject(MAT_DIALOG_DATA) public data: any,
   ) {}
 
   onNoClick(): void {
@@ -24,7 +24,6 @@ export class AddTeamDialogComponent {
 
   onAddTeam(): void {
     if(this.teamName!!) {
-      console.log(this.teamName);
       this.store.dispatch(TeamsActions.addTeam(
         {
           payload: {

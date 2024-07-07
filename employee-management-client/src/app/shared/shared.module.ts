@@ -8,19 +8,23 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { AddTeamDialogComponent } from './dialog/add-team-dialog/add-team-dialog.component';
 import { FormsModule } from "@angular/forms";
 import { MatCardModule } from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
+import { AddUserDialogComponent } from './dialog/add-user-dialog/add-user-dialog.component';
 
 @NgModule({
     declarations: [
         LoadingSpinnerComponent,
         HeaderComponent,
-        AddTeamDialogComponent
+        AddTeamDialogComponent,
+        AddUserDialogComponent
     ],
     imports: [
         CommonModule,
         MatCardModule,
         MatDialogModule,
         MatFormFieldModule,
-        FormsModule
+        FormsModule,
+        MatButtonModule
     ],
     exports: [
         LoadingSpinnerComponent,
@@ -28,6 +32,7 @@ import { MatCardModule } from '@angular/material/card';
         CommonModule,
         MatIconModule,
         MatDialogModule,
+        MatButtonModule,
     ],
 })
 export class SharedModule {}

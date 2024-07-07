@@ -9,6 +9,7 @@ import { CoreRoutingModule } from "./core-routing-module";
 import { RouterModule } from "@angular/router";
 import { CoreComponent } from "./core.component";
 import { ProfileCardComponent } from './components/profile-card/profile-card.component';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { ProfileCardComponent } from './components/profile-card/profile-card.com
         ManagedTeamsComponent,
         CoreComponent,
         ProfileCardComponent,
+        SearchBarComponent,
     ],
     imports: [
         CoreRoutingModule,

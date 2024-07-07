@@ -59,6 +59,7 @@ public class DtoConversionService {
         teamDto.setName(team.getName());
         Optional<User> user = userRepository.findById(team.getOwner());
         UserDto owner = convertEntityToUserDto(user.get());
+        
         teamDto.setOwner(owner);
 
         List<UserDto> members = new ArrayList<>();

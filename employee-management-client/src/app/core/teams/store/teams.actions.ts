@@ -44,3 +44,31 @@ export const addTeamSuccess = createAction(
         }
     }>()
 )
+
+export const requestError = createAction(
+    '[Teams] Error',
+    props<{
+        payload: {
+            error: any  
+        }
+    }>()
+)
+
+export const addMember = createAction(
+    '[Teams] Add Member',
+    props<{
+        payload: {
+            teamId: string,
+            userEmail: string
+        }
+    }>()
+)
+
+export const addMemberSuccess = createAction(
+    '[Teams] Sent member request success',
+    props<{
+        payload: {
+            responseMessage: string
+        }
+    }>()
+)

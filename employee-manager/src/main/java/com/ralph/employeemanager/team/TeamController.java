@@ -19,6 +19,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -55,12 +56,12 @@ public class TeamController {
             return ResponseEntity.status(HttpStatus.OK).body(team);
     }
     @PutMapping("/addUser")
-    public ResponseEntity<Team> add(
+    public ResponseEntity<Map<String,String>> add(
         @Valid
         @RequestBody AddUserDto addUserDto,
         @RequestHeader("Authorization") String authorizationHeader){
-            Team team = teamService.addUser(addUserDto,authorizationHeader);
-            return ResponseEntity.status(HttpStatus.OK).body(team);
+            Map<String, String> resp = teamService.addUser(addUserDto,authorizationHeader);
+            return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
     @PatchMapping("/removeUser")
     public ResponseEntity<Boolean> removeUser(
@@ -76,5 +77,10 @@ public class TeamController {
             @RequestHeader("Authorization") String authorizationHeader) {
         Boolean resp = teamService.deleteTeam(teamId,authorizationHeader);
         return ResponseEntity.status(HttpStatus.OK).body(resp);
+    }
+    @GetMapping("/confirmInvitation")
+    public ResponseEntity<String> confirmInvitation(@RequestParam("teamId") String teamId,@RequestParam("token") String token){
+        String response = teamService.confirmInvitation(teamId,token);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

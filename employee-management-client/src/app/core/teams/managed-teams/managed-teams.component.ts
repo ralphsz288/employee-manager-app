@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTeamDialogComponent } from '../../../shared/dialog/add-team-dialog/add-team-dialog.component';
 import { User } from '../../../auth/user.model';
+import { AddUserDialogComponent } from '../../../shared/dialog/add-user-dialog/add-user-dialog.component';
  
 @Component({
   selector: 'app-managed-teams',
@@ -19,7 +20,10 @@ export class ManagedTeamsComponent implements AfterViewInit {
   teamOwner: User;
   private storeSub: Subscription;
   error: string = null;
+  responseMessage: string = null;
   showError: boolean = false;
+  showResponseMessage: boolean = false;
+  isEditButtonPressed: boolean = false;
 
   constructor(private store: Store<fromApp.AppState>, private dialog: MatDialog) { }
 
@@ -28,8 +32,12 @@ export class ManagedTeamsComponent implements AfterViewInit {
     this.storeSub = this.store.select('teams').subscribe(teamsState => {
       this.isLoading = teamsState.loading;
       this.error = teamsState.error;
-      if (this.error) {
+      this.responseMessage = teamsState.responseMessage;
+      if (this.error!!) {
         this.showError = true;
+      }
+      if (this.responseMessage!!) {
+        this.showResponseMessage = true;
       }
       if (teamsState.managedTeams!! && teamsState.managedTeams.length > 0) {
         this.managedTeams = [...teamsState.managedTeams];
@@ -51,12 +59,33 @@ export class ManagedTeamsComponent implements AfterViewInit {
       AddTeamDialogComponent, 
       {
         width: '250px',
-        data: "right click"
+      }
+    );
+  }
+
+  openAddUserDialog() { 
+    this.dialog.open(
+      AddUserDialogComponent, 
+      {
+        width: '250px',
+        data: {teamId: this.managedTeams[0].id}
       }
     );
   }
 
   onSelectTeam(index:number) {
     [this.managedTeams[0], this.managedTeams[index]] = [this.managedTeams[index], this.managedTeams[0]];
+  }
+
+  onEditButtonPressed() {
+    this.isEditButtonPressed = !this.isEditButtonPressed;
+  }
+
+  onErrorButtonClicked() {
+    this.showError = false;
+  }
+
+  onRequestSentButtonClicked() {
+    this.showResponseMessage = false;
   }
 }

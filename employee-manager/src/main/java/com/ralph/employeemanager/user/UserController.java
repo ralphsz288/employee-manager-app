@@ -38,7 +38,7 @@ public class UserController {
     }
     @GetMapping("/confirm")
     public ResponseEntity<String> confirm(@RequestParam("token") String token){
-        String response = userService.confirmToken(token);
+        String response = userService.confirmEmailToken(token);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
     @GetMapping("/checkToken")

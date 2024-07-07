@@ -47,9 +47,8 @@ export class TeamsEffects {
                         )
                     }),
                     catchError((error) => {
-                        console.log(error);
-                        // return of(AuthActions.authenticationFail({payload: error.error}))
-                        return of(null)
+                        console.log(error.error);
+                        return of(TeamsActions.requestError({payload: error.error}))
                     })
                 )
             })
@@ -130,8 +129,46 @@ export class TeamsEffects {
                     }), 
                     catchError((error) => {
                         console.log(error);
-                        //return of(AuthActions.authenticationFail({payload: error.error}))
-                        return of(null)
+                        return of(TeamsActions.requestError({payload: error.error}))
+                    })
+                )
+            })
+        )
+    );
+
+    addMember$ = createEffect(() => 
+        this.actions$.pipe(
+            ofType(TeamsActions.addMember),
+            withLatestFrom(this.store.select('auth')),
+            switchMap(([data,authState]) => {
+                const headers = new HttpHeaders({
+                    'Authorization': 'Bearer ' + authState.token,
+                    'Content-Type': 'application/json'
+                });
+                const body = {
+                    "teamId" : data.payload.teamId, 
+                    "email" : data.payload.userEmail
+                }
+                return this.http.put<any>(
+                    environment.teams.addUser,
+                    body,
+                    {
+                        headers: headers
+                    },
+                ).pipe(
+                    map((res) => {
+                        console.log(res); 
+                        return TeamsActions.addMemberSuccess(
+                            {
+                                payload: {
+                                    responseMessage: res.message
+                                }
+                            }
+                        );
+                    }), 
+                    catchError((error) => {
+                        // console.log(error);
+                        return of(TeamsActions.requestError({payload: error.error}))
                     })
                 )
             })
