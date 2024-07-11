@@ -5,9 +5,9 @@ import { Store } from '@ngrx/store';
 import { Team } from '../model/team.model';
 import { Subscription } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { AddTeamDialogComponent } from '../../../shared/dialog/add-team-dialog/add-team-dialog.component';
+import { AddTeamDialogComponent } from '../../components/dialog/add-team-dialog/add-team-dialog.component';
 import { User } from '../../../auth/user.model';
-import { AddUserDialogComponent } from '../../../shared/dialog/add-user-dialog/add-user-dialog.component';
+import { AddUserDialogComponent } from '../../components/dialog/add-user-dialog/add-user-dialog.component';
  
 @Component({
   selector: 'app-managed-teams',

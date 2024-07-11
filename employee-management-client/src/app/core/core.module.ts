@@ -10,6 +10,8 @@ import { RouterModule } from "@angular/router";
 import { CoreComponent } from "./core.component";
 import { ProfileCardComponent } from './components/profile-card/profile-card.component';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { AddTeamDialogComponent } from "./components/dialog/add-team-dialog/add-team-dialog.component";
+import { AddUserDialogComponent } from "./components/dialog/add-user-dialog/add-user-dialog.component";
 
 
 @NgModule({
@@ -19,6 +21,8 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
         CoreComponent,
         ProfileCardComponent,
         SearchBarComponent,
+        AddTeamDialogComponent,
+        AddUserDialogComponent
     ],
     imports: [
         CoreRoutingModule,

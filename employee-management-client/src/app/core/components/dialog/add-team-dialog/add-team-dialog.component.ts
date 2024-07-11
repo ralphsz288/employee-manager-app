@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as fromApp from '../../../store/app.reducer';
-import * as TeamsActions from '../../../core/teams/store/teams.actions';
+import * as fromApp from '../../../../store/app.reducer';
+import * as TeamsActions from '../../../teams/store/teams.actions';
 import { Store } from '@ngrx/store';
 
 @Component({

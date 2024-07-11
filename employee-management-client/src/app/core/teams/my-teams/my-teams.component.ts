@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import * as fromApp from '../../../store/app.reducer';
 import * as TeamsActions from '../../teams/store/teams.actions';
 import { Store } from '@ngrx/store';

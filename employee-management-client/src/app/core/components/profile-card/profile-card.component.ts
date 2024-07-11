@@ -11,4 +11,8 @@ export class ProfileCardComponent {
   @Input() role: string;
   @Input() email: string;
   @Input() imageUrl: string; // URL for the profile picture
+
+  onDeletePressed() {
+    console.log("delete pressed");
+  }
 }

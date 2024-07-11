@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import * as fromApp from '../../../store/app.reducer';
-import * as TeamsActions from '../../../core/teams/store/teams.actions';
+import * as fromApp from '../../../../store/app.reducer';
+import * as TeamsActions from '../../../../core/teams/store/teams.actions';
 
 @Component({
   selector: 'app-add-user-dialog',
