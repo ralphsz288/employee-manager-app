@@ -174,4 +174,44 @@ export class TeamsEffects {
             })
         )
     );
+
+    removeTeamMember$ = createEffect(()=>
+        this.actions$.pipe(
+            ofType(TeamsActions.removeTeamMember),
+            withLatestFrom(this.store.select('auth')),
+            switchMap(([data,authState]) => {
+                const headers = new HttpHeaders({
+                    'Authorization': 'Bearer ' + authState.token,
+                    'Content-Type': 'application/json'
+                });
+                const body = {
+                    "teamId" : data.payload.teamId, 
+                    "userId" : data.payload.userId
+                }
+                return this.http.patch<any>(
+                    environment.teams.removeTeamMember,
+                    body,
+                    {
+                        headers: headers
+                    },
+                ).pipe(
+                    map((res) => {
+                        console.log(res); 
+                        return TeamsActions.removeTeamMemberSuccess(
+                            {
+                                payload: {
+                                    teamId: data.payload.teamId,
+                                    userId: data.payload.userId
+                                }
+                            }
+                        );
+                    }), 
+                    catchError((error) => {
+                        // console.log(error);
+                        return of(TeamsActions.requestError({payload: error.error}))
+                    })
+                )
+            })
+        )
+    );
 }

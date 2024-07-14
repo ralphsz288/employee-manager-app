@@ -41,20 +41,6 @@ export class MyTeamsComponent implements OnInit {
           owner.imageUrl,
           owner.role
         );
-        // this.teams = [
-        //   new Team('1','team1',new User('a','b','c','d',null,'rol'),[]),
-        //   new Team('1','team2',new User('a','b','c','d',null,'rol'),[]),
-        //   new Team('1','team3',new User('a','b','c','d',null,'rol'),[]),
-        //   new Team('1','team4',new User('a','b','c','d',null,'rol'),[]),
-        //   new Team('1','team5',new User('a','b','c','d',null,'rol'),[]),
-        //   new Team('1','team6',new User('a','b','c','d',null,'rol'),[]),
-        //   new Team('1','team7',new User('a','b','c','d',null,'rol'),[]),
-        //   new Team('1','team8',new User('a','b','c','d',null,'rol'),[]),
-        //   new Team('1','team9',new User('a','b','c','d',null,'rol'),[]),
-        //   new Team('1','team10',new User('a','b','c','d',null,'rol'),[]),
-        //   new Team('1','team11',new User('a','b','c','d',null,'rol'),[]),
-        //   new Team('1','team12',new User('a','b','c','d',null,'rol'),[])
-        // ]
       }
     });
   }

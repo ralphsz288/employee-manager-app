@@ -10,7 +10,7 @@ module.exports = {
         'aleo' : ['Aleo', 'serif'],
         'roboto' : ['Roboto', 'sans-serif'],
         'lato' : ['Lato', 'sans-serif']
-      }
+      },
     },
   },
   plugins: [],

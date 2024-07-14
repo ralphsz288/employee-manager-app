@@ -119,6 +119,7 @@ public class TeamService {
             throw new NotFoundException("The selected user is not part of this team");
         }
     }
+    
     public Boolean deleteTeam(String teamId, String authorizationHeader) {
         Optional<Team> teamOptional = repository.findById(teamId);
         if (teamOptional.isEmpty()) {

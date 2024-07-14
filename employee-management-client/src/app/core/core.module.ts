@@ -12,6 +12,7 @@ import { ProfileCardComponent } from './components/profile-card/profile-card.com
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { AddTeamDialogComponent } from "./components/dialog/add-team-dialog/add-team-dialog.component";
 import { AddUserDialogComponent } from "./components/dialog/add-user-dialog/add-user-dialog.component";
+import { DeleteUserDialogComponent } from './components/dialog/delete-user-dialog/delete-user-dialog.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { AddUserDialogComponent } from "./components/dialog/add-user-dialog/add-
         ProfileCardComponent,
         SearchBarComponent,
         AddTeamDialogComponent,
-        AddUserDialogComponent
+        AddUserDialogComponent,
+        DeleteUserDialogComponent
     ],
     imports: [
         CoreRoutingModule,

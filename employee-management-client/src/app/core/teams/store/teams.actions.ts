@@ -72,3 +72,32 @@ export const addMemberSuccess = createAction(
         }
     }>()
 )
+
+export const selectManagedTeam = createAction(
+    '[Teams] Select managed team',
+    props<{
+        payload: {
+            index: number
+        }
+    }>()
+)
+
+export const removeTeamMember = createAction(
+    '[Teams] Remove team member',
+    props<{
+        payload: {
+            teamId: string,
+            userId: string
+        }
+    }>()
+)
+
+export const removeTeamMemberSuccess = createAction(
+    '[Teams] Remove team member success',
+    props<{
+        payload: {
+            teamId: string,
+            userId: string
+        }
+    }>()
+)

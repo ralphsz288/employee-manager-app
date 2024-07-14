@@ -74,7 +74,11 @@ export class ManagedTeamsComponent implements AfterViewInit {
   }
 
   onSelectTeam(index:number) {
-    [this.managedTeams[0], this.managedTeams[index]] = [this.managedTeams[index], this.managedTeams[0]];
+    this.store.dispatch(TeamsActions.selectManagedTeam(
+      {
+        payload: {index:index}
+      }
+    ))
   }
 
   onEditButtonPressed() {

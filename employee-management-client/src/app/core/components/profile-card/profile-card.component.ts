@@ -1,4 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteUserDialogComponent } from '../dialog/delete-user-dialog/delete-user-dialog.component';
+import { User } from '../../../auth/user.model';
 
 @Component({
   selector: 'app-profile-card',
@@ -6,13 +9,21 @@ import { Component, Input } from '@angular/core';
   styleUrl: './profile-card.component.css'
 })
 export class ProfileCardComponent {
-  @Input() firstName: string;
-  @Input() lastName: string;
-  @Input() role: string;
-  @Input() email: string;
-  @Input() imageUrl: string; // URL for the profile picture
+  @Input() user: User;
+  @Input() showDeleteButton: boolean;
 
-  onDeletePressed() {
-    console.log("delete pressed");
+  constructor(private dialog: MatDialog){}
+
+  openDeleteUserDialog() { 
+    this.dialog.open(
+      DeleteUserDialogComponent, 
+      {
+        width: '300px',
+        data: {
+          teamId: 0,
+          userId: this.user.id
+        }
+      }
+    );
   }
 }

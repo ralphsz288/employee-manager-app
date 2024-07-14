@@ -51,22 +51,14 @@
       <div
         class="bg-red-100 shadow-lg hover:shadow-2xl rounded-2xl border-white border-4">
         <app-profile-card
-          [firstName]="teamOwner.firstName"
-          [lastName]="teamOwner.lastName"
-          [role]="'Team lead'"
-          [email]="teamOwner.email"
-          [imageUrl]="teamOwner.imageUrl">
+          [user]="teamOwner">
         </app-profile-card>
       </div>
       <div
         class="bg-red-100 shadow-lg hover:shadow-2xl rounded-2xl border-white border-4"
         *ngFor="let member of teams[0].members">
-        <app-profile-card 
-          [firstName]="member.firstName"
-          [lastName]="member.lastName"
-          [role]="member.role"
-          [email]="member.email"
-          [imageUrl]="member.imageUrl">
+        <app-profile-card
+          [user]="member">
         </app-profile-card>
       </div>
   </div>
