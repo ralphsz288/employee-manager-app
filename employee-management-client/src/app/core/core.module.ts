@@ -13,6 +13,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 import { AddTeamDialogComponent } from "./components/dialog/add-team-dialog/add-team-dialog.component";
 import { AddUserDialogComponent } from "./components/dialog/add-user-dialog/add-user-dialog.component";
 import { DeleteUserDialogComponent } from './components/dialog/delete-user-dialog/delete-user-dialog.component';
+import { DeleteTeamDialogComponent } from './components/dialog/delete-team-dialog/delete-team-dialog.component';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { DeleteUserDialogComponent } from './components/dialog/delete-user-dialo
         SearchBarComponent,
         AddTeamDialogComponent,
         AddUserDialogComponent,
-        DeleteUserDialogComponent
+        DeleteUserDialogComponent,
+        DeleteTeamDialogComponent
     ],
     imports: [
         CoreRoutingModule,

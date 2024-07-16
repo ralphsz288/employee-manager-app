@@ -214,4 +214,41 @@ export class TeamsEffects {
             })
         )
     );
+
+    deleteTeam$ = createEffect(()=>
+        this.actions$.pipe(
+            ofType(TeamsActions.deleteTeam),
+            withLatestFrom(this.store.select('auth')),
+            switchMap(([data,authState]) => {
+                const headers = new HttpHeaders({
+                    'Authorization': 'Bearer ' + authState.token,
+                    'Content-Type': 'application/json'
+                });
+                let params = new HttpParams();
+                params = params.append('teamId', data.payload.teamId);
+                return this.http.delete<any>(
+                    environment.teams.deleteTeam,
+                    {
+                        headers: headers,
+                        params: params
+                    },
+                ).pipe(
+                    map((res) => {
+                        console.log(res); 
+                        return TeamsActions.deleteTeamSuccess(
+                            {
+                                payload: {
+                                    teamId: data.payload.teamId,
+                                }
+                            }
+                        );
+                    }), 
+                    catchError((error) => {
+                        // console.log(error);
+                        return of(TeamsActions.requestError({payload: error.error}))
+                    })
+                )
+            })
+        )
+    );
 }

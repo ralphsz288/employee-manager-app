@@ -1,0 +1,9 @@
+<div class="p-6">
+    <div>
+        <label class="text-l self-center">Are you sure you want to delete {{data.team.name}}?</label>  
+        <div class="flex justify-between space-x-4 pt-2"> 
+            <button class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 text-xs rounded-full" (click)="onNoClick()">No</button> 
+            <button class="bg-green-500 hover:bg-green-700 text-white py-2 px-6 text-xs rounded-full" (click)="onDeleteTeam()" >Yes</button> 
+        </div>  
+    </div>
+</div>

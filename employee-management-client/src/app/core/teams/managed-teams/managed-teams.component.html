@@ -21,7 +21,7 @@
 </div>
 <div *ngIf="!isLoading" class="w-[70%] mx-auto p-2 pt-16">
   <div class="flex flex-col md:flex-row justify-between mb-6 mt-12">
-    <div class="flex flex-row space-x-8 scrollbarHide overflow-auto items-center">
+    <div class="flex flex-row space-x-8 overflow-auto items-center">
       <div *ngFor="let team of managedTeams; let i = index">
         <button>
           <ng-container *ngIf="i === 0; else otherItems">
@@ -60,14 +60,18 @@
     </div>
   </div>
   <div *ngIf="isEditButtonPressed" class="flex justify-end">
-    <div class="flex flex-col w-32">
-      <button (click)="openAddTeamDialog()" mat-raised-button class="!text-gray-400 !rounded-md !shadow-sm hover:!shadow-xl !font-roboto !font-normal mb-2">
+    <div class="flex flex-col w-30">
+      <button (click)="openAddTeamDialog()" mat-raised-button class="!grid !grid-cols-[auto_1fr] !items-center !text-gray-400 !rounded-md !shadow-sm hover:!shadow-xl !font-roboto !font-normal mb-2 !text-sm">
         <mat-icon>add</mat-icon>
-        Add Team
+        Team
       </button>
-      <button (click)="openAddUserDialog()" mat-raised-button class="!text-gray-400 !rounded-md !shadow-sm hover:!shadow-xl !font-roboto !font-normal mb-2">
+      <button (click)="openAddUserDialog()" mat-raised-button class="!grid !grid-cols-[auto_1fr] !items-center !text-gray-400 !rounded-md !shadow-sm hover:!shadow-xl !font-roboto !font-normal mb-2 !text-sm">
         <mat-icon>add</mat-icon>
-        Add User 
+          User 
+      </button>
+      <button (click)="openDeleteTeamDialog()" mat-raised-button class="!grid !grid-cols-[auto_1fr] !items-center !text-gray-400 !rounded-md !shadow-sm hover:!shadow-xl !font-roboto !font-normal mb-2 !text-sm">
+        <mat-icon>remove</mat-icon>
+        Team 
       </button>
     </div>
   </div>

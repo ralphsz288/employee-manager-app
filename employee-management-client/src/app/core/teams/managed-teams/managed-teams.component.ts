@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddTeamDialogComponent } from '../../components/dialog/add-team-dialog/add-team-dialog.component';
 import { User } from '../../../auth/user.model';
 import { AddUserDialogComponent } from '../../components/dialog/add-user-dialog/add-user-dialog.component';
+import { DeleteTeamDialogComponent } from '../../components/dialog/delete-team-dialog/delete-team-dialog.component';
  
 @Component({
   selector: 'app-managed-teams',
@@ -40,6 +41,7 @@ export class ManagedTeamsComponent implements AfterViewInit {
         this.showResponseMessage = true;
       }
       if (teamsState.managedTeams!! && teamsState.managedTeams.length > 0) {
+        this.isEditButtonPressed = false;
         this.managedTeams = [...teamsState.managedTeams];
         const owner = this.managedTeams[0].owner;
         this.teamOwner = new User(
@@ -69,6 +71,16 @@ export class ManagedTeamsComponent implements AfterViewInit {
       {
         width: '250px',
         data: {teamId: this.managedTeams[0].id}
+      }
+    );
+  }
+
+  openDeleteTeamDialog() { 
+    this.dialog.open(
+      DeleteTeamDialogComponent, 
+      {
+        width: '250px',
+        data: {team: this.managedTeams[0]}
       }
     );
   }

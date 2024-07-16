@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { Team } from "../model/team.model";
-import { addMemberSuccess, addTeam, addTeamSuccess, getManagedTeamsStart, getManagedTeamsSuccess, getTeamsStart, getTeamsSuccess, removeTeamMember, removeTeamMemberSuccess, requestError, selectManagedTeam } from "./teams.actions";
+import { addMemberSuccess, addTeam, addTeamSuccess, deleteTeam, deleteTeamSuccess, getManagedTeamsStart, getManagedTeamsSuccess, getTeamsStart, getTeamsSuccess, removeTeamMember, removeTeamMemberSuccess, requestError, selectManagedTeam } from "./teams.actions";
 
 export interface State {
     teams: Team[],
@@ -113,5 +113,23 @@ export const teamsReducer = createReducer(
             managedTeams: updatedManagedTeams,
             error: null
         }
-    })
+    }),
+
+    on(deleteTeam, (state, action) => {
+        return {
+            ...state,
+            loading: false,
+            error: null
+        }
+    }),
+
+    on(deleteTeamSuccess, (state, action) => {
+        const updatedManagedTeams = state.managedTeams.filter(team => team.id !== action.payload.teamId);
+        return {
+            ...state,
+            loading: false,
+            error: null,
+            managedTeams: updatedManagedTeams
+        }
+    }),
 )

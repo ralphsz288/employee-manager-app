@@ -101,3 +101,22 @@ export const removeTeamMemberSuccess = createAction(
         }
     }>()
 )
+
+export const deleteTeam = createAction(
+    '[Teams] Delete team',
+    props<{
+        payload: {
+            teamId: string,
+        }
+    }>()
+)
+
+export const deleteTeamSuccess = createAction(
+    '[Teams] Delete team success',
+    props<{
+        payload: {
+            teamId: string,
+        }
+    }>()
+)
+
