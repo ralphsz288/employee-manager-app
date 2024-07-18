@@ -26,8 +26,6 @@ export class DeleteUserDialogComponent {
     this.store.pipe(
       select('teams'),take(1)).
       subscribe(data => {
-        console.log(data.managedTeams[0].id);
-        console.log(this.data.userId)
         this.store.dispatch(TeamsActions.removeTeamMember({
           payload: {
             teamId: data.managedTeams[0].id,

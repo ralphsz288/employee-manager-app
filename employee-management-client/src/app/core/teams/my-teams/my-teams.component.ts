@@ -5,6 +5,8 @@ import { Store } from '@ngrx/store';
 import { Subscription, map } from 'rxjs';
 import { Team } from '../model/team.model';
 import { User } from '../../../auth/user.model';
+import { SearchMemberFilterPipe } from '../../components/search-bar/pipe/search-member-filter.pipe';
+import { TeamsService } from '../teams-service';
 
 @Component({
   selector: 'app-my-teams',
@@ -19,14 +21,20 @@ export class MyTeamsComponent implements OnInit {
   showError: boolean = false;
   teams: Team[];
   teamOwner: User;
+  searchText: string = null;
 
-  constructor(private store: Store<fromApp.AppState>) { }
+  constructor(
+    private store: Store<fromApp.AppState>,
+    private searchFilterPipe: SearchMemberFilterPipe,
+    private teamService: TeamsService
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(TeamsActions.getTeamsStart());
     this.storeSub = this.store.select('teams').subscribe(teamsState => {
       this.isLoading = teamsState.loading;
       this.error = teamsState.error;
+      this.searchText = teamsState.searchText;
       if (this.error) {
         this.showError = true;
       }
@@ -41,6 +49,13 @@ export class MyTeamsComponent implements OnInit {
           owner.imageUrl,
           owner.role
         );
+      }
+      if (!!this.teams && !!this.searchText) {
+        const filteredItems = this.teamService.filter(this.teamOwner,this.teams[0].members,this.searchText);
+        this.teams = [
+          { ...this.teams[0], members: filteredItems.team },
+        ];
+        this.teamOwner = filteredItems.teamOwner;
       }
     });
   }

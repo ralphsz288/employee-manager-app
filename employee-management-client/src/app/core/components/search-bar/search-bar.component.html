@@ -20,5 +20,7 @@
       type="text"
       id="search"
       placeholder="Search..."
+      [(ngModel)] = "searchText"
+      (ngModelChange)="onSearchTextChanged()"
     />
-  </div>
+</div>

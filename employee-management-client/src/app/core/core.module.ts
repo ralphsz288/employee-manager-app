@@ -14,6 +14,7 @@ import { AddTeamDialogComponent } from "./components/dialog/add-team-dialog/add-
 import { AddUserDialogComponent } from "./components/dialog/add-user-dialog/add-user-dialog.component";
 import { DeleteUserDialogComponent } from './components/dialog/delete-user-dialog/delete-user-dialog.component';
 import { DeleteTeamDialogComponent } from './components/dialog/delete-team-dialog/delete-team-dialog.component';
+import { SearchMemberFilterPipe } from './components/search-bar/pipe/search-member-filter.pipe';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { DeleteTeamDialogComponent } from './components/dialog/delete-team-dialo
         AddTeamDialogComponent,
         AddUserDialogComponent,
         DeleteUserDialogComponent,
-        DeleteTeamDialogComponent
+        DeleteTeamDialogComponent,
+        SearchMemberFilterPipe
     ],
     imports: [
         CoreRoutingModule,

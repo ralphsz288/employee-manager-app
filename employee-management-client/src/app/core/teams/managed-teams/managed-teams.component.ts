@@ -9,6 +9,8 @@ import { AddTeamDialogComponent } from '../../components/dialog/add-team-dialog/
 import { User } from '../../../auth/user.model';
 import { AddUserDialogComponent } from '../../components/dialog/add-user-dialog/add-user-dialog.component';
 import { DeleteTeamDialogComponent } from '../../components/dialog/delete-team-dialog/delete-team-dialog.component';
+import { SearchMemberFilterPipe } from '../../components/search-bar/pipe/search-member-filter.pipe';
+import { TeamsService } from '../teams-service';
  
 @Component({
   selector: 'app-managed-teams',
@@ -25,8 +27,14 @@ export class ManagedTeamsComponent implements AfterViewInit {
   showError: boolean = false;
   showResponseMessage: boolean = false;
   isEditButtonPressed: boolean = false;
+  searchText: string = null;
+  member: any;
 
-  constructor(private store: Store<fromApp.AppState>, private dialog: MatDialog) { }
+  constructor(
+    private store: Store<fromApp.AppState>, 
+    private dialog: MatDialog,
+    private teamService: TeamsService
+  ) { }
 
   ngAfterViewInit(): void {
     this.store.dispatch(TeamsActions.getManagedTeamsStart());
@@ -34,6 +42,7 @@ export class ManagedTeamsComponent implements AfterViewInit {
       this.isLoading = teamsState.loading;
       this.error = teamsState.error;
       this.responseMessage = teamsState.responseMessage;
+      this.searchText = teamsState.searchText;
       if (this.error!!) {
         this.showError = true;
       }
@@ -52,6 +61,14 @@ export class ManagedTeamsComponent implements AfterViewInit {
           owner.imageUrl,
           owner.role
         );
+      }
+      if (!!this.managedTeams && !!this.searchText) {
+        console.log("called")
+        const filteredItems = this.teamService.filter(this.teamOwner,this.managedTeams[0].members,this.searchText);
+        this.managedTeams = [
+          { ...this.managedTeams[0], members: filteredItems.team },
+        ];
+        this.teamOwner = filteredItems.teamOwner;
       }
     });
   }

@@ -120,3 +120,12 @@ export const deleteTeamSuccess = createAction(
     }>()
 )
 
+export const searchTextChanged = createAction(
+    '[Teams] search text',
+    props<{
+        payload: {
+            text: string,
+        }
+    }>()
+)
+

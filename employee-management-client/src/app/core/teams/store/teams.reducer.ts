@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { Team } from "../model/team.model";
-import { addMemberSuccess, addTeam, addTeamSuccess, deleteTeam, deleteTeamSuccess, getManagedTeamsStart, getManagedTeamsSuccess, getTeamsStart, getTeamsSuccess, removeTeamMember, removeTeamMemberSuccess, requestError, selectManagedTeam } from "./teams.actions";
+import { addMemberSuccess, addTeam, addTeamSuccess, deleteTeam, deleteTeamSuccess, getManagedTeamsStart, getManagedTeamsSuccess, getTeamsStart, getTeamsSuccess, removeTeamMember, removeTeamMemberSuccess, requestError,searchTextChanged, selectManagedTeam } from "./teams.actions";
 
 export interface State {
     teams: Team[],
@@ -8,6 +8,7 @@ export interface State {
     error: string | null,
     loading: boolean,
     responseMessage: string | null,
+    searchText: string | null
 }
 
 const initialState: State = {
@@ -15,7 +16,8 @@ const initialState: State = {
     managedTeams: [],
     error: null,
     loading: false,
-    responseMessage: null
+    responseMessage: null,
+    searchText: null
 }
 
 export const teamsReducer = createReducer(
@@ -130,6 +132,13 @@ export const teamsReducer = createReducer(
             loading: false,
             error: null,
             managedTeams: updatedManagedTeams
+        }
+    }),
+
+    on(searchTextChanged, (state, action) => {
+        return {
+            ...state,
+            searchText: action.payload.text
         }
     }),
 )
