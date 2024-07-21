@@ -63,7 +63,6 @@ export class ManagedTeamsComponent implements AfterViewInit {
         );
       }
       if (!!this.managedTeams && !!this.searchText) {
-        console.log("called")
         const filteredItems = this.teamService.filter(this.teamOwner,this.managedTeams[0].members,this.searchText);
         this.managedTeams = [
           { ...this.managedTeams[0], members: filteredItems.team },

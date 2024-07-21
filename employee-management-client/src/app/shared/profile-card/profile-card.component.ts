@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteUserDialogComponent } from '../dialog/delete-user-dialog/delete-user-dialog.component';
-import { User } from '../../../auth/user.model';
+import { DeleteUserDialogComponent } from '../../core/components/dialog/delete-user-dialog/delete-user-dialog.component';
+import { User } from '../../auth/user.model';
 
 @Component({
   selector: 'app-profile-card',
