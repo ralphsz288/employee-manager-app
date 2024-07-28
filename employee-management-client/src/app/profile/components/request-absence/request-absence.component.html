@@ -1,0 +1,19 @@
+<div class="flex flex-col w-[90%] mx-auto justify-center items-center">
+    <div class="text-black font-roboto text-3xl">Request absence</div>
+    <mat-form-field class="mt-10 !text-sm xl:w-5/12">
+        <mat-label>Select date range</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Start date">
+          <input matEndDate placeholder="End date">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+    <mat-form-field class="!text-sm w-5/12">
+        <mat-label>Type</mat-label>
+        <mat-select>
+          <mat-option value="one">Vacation eave</mat-option>
+          <mat-option value="two">Sick leave</mat-option>
+        </mat-select>
+      </mat-form-field>
+</div>

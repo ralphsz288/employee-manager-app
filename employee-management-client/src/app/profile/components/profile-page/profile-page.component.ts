@@ -8,9 +8,14 @@ import { User } from '../../../auth/user.model';
 })
 export class ProfilePageComponent implements OnInit {
   	member: User;
+	 
 
 	ngOnInit(): void {
 		this.member = new User("123","Ralph","Szakacs","rakph28@gmail.com","123","USER");
 		console.log(this.member)
+	}
+
+	onRequestAbsence() {
+
 	}
 }
