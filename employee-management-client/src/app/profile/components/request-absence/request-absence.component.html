@@ -1,19 +1,27 @@
-<div class="flex flex-col w-[90%] mx-auto justify-center items-center">
-    <div class="text-black font-roboto text-3xl">Request absence</div>
+<form #absenceForm="ngForm" (ngSubmit)="onSubmit(absenceForm)">
+  <div class="flex flex-col w-[90%] mx-auto justify-center items-center pt-20">
+    <div class="text-gray-800 font-roboto text-3xl">Request absence</div>
     <mat-form-field class="mt-10 !text-sm xl:w-5/12">
         <mat-label>Select date range</mat-label>
         <mat-date-range-input [rangePicker]="picker">
-          <input matStartDate placeholder="Start date">
-          <input matEndDate placeholder="End date">
+          <input matStartDate [min]="minDate" [(ngModel)]="startDate" name="startDate" placeholder="Start date" required>
+          <input matEndDate placeholder="End date" [(ngModel)]="endDate" name="endDate">
         </mat-date-range-input>
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
+        <div *ngIf="startDate < minDate">
+          <span class="text-red-700 font-bold">The start date cannot be before {{ minDate | date:'mediumDate' }}!</span>
+        </div>
     </mat-form-field>
+    
+    
     <mat-form-field class="!text-sm w-5/12">
         <mat-label>Type</mat-label>
-        <mat-select>
+        <mat-select [(ngModel)]="leaveType" name="leaveType" required>
           <mat-option value="one">Vacation eave</mat-option>
           <mat-option value="two">Sick leave</mat-option>
         </mat-select>
-      </mat-form-field>
-</div>
+    </mat-form-field>
+    <button [disabled]="!absenceForm.valid || startDate < minDate" type="submit" class="mt-4 px-4 py-2 bg-white text-gray-800 font-roboto rounded hover:bg-gray-100">Send Request</button>
+  </div>
+</form>
