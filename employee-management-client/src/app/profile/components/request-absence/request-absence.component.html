@@ -18,8 +18,8 @@
     <mat-form-field class="!text-sm w-5/12">
         <mat-label>Type</mat-label>
         <mat-select [(ngModel)]="leaveType" name="leaveType" required>
-          <mat-option value="one">Vacation eave</mat-option>
-          <mat-option value="two">Sick leave</mat-option>
+          <mat-option value="vacation">Vacation leave</mat-option>
+          <mat-option value="sick">Sick leave</mat-option>
         </mat-select>
     </mat-form-field>
     <button [disabled]="!absenceForm.valid || startDate < minDate" type="submit" class="mt-4 px-4 py-2 bg-white text-gray-800 font-roboto rounded hover:bg-gray-100">Send Request</button>

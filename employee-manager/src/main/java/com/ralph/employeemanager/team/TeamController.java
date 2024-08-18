@@ -27,7 +27,6 @@ import java.util.Optional;
 @RequestMapping("employee.management/team")
 @AllArgsConstructor
 public class TeamController {
-    private final TeamRepository repository;
     private final TeamService teamService;
     private final AuthorizationService authorizationService;
 

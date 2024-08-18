@@ -23,7 +23,7 @@ export class RequestAbsenceComponent {
     if(!this.endDate) {
       this.endDate = this.startDate;
     }
-    console.log(form.invalid);
+    console.log(form);
   }
 
 }
